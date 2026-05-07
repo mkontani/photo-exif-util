@@ -28,6 +28,11 @@ export const initialInspectState: InspectState = {
 
 export type InspectAction =
   | { type: 'INGEST_START'; source: ImageSource }
+  /**
+   * 画像 blob は確定したが EXIF 解析がまだ完了していないフェーズで dispatch する。
+   * UI で「いま処理対象になっている画像」のサムネイル表示を可能にする。
+   */
+  | { type: 'BLOB_LOADED'; blob: Blob; source: ImageSource }
   | { type: 'INGEST_SUCCESS'; blob: Blob; summary: ExifSummary; source: ImageSource }
   | { type: 'INGEST_ERROR'; code: string; message: string }
   | { type: 'SET_QUERY'; query: string }
@@ -51,6 +56,18 @@ export function inspectReducer(state: InspectState, action: InspectAction): Insp
       };
     }
 
+    case 'BLOB_LOADED': {
+      // status は loading のまま維持。blob と source だけ確定させる。
+      // これにより UI が解析中もサムネイルを表示できる。
+      const { errorCode: _ec, errorMessage: _em, summary: _s, ...rest } = state;
+      return {
+        ...rest,
+        status: 'loading',
+        blob: action.blob,
+        source: action.source,
+      };
+    }
+
     case 'INGEST_SUCCESS': {
       const { errorCode: _ec, errorMessage: _em, ...rest } = state;
       return {
@@ -63,7 +80,9 @@ export function inspectReducer(state: InspectState, action: InspectAction): Insp
     }
 
     case 'INGEST_ERROR': {
-      const { blob: _b, summary: _s, ...rest } = state;
+      // blob は維持して「どの画像がエラーになったか」を UI に伝える。
+      // summary はクリアする (解析失敗のため)。
+      const { summary: _s, ...rest } = state;
       return {
         ...rest,
         status: 'error',

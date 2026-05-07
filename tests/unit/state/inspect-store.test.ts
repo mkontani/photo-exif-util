@@ -74,7 +74,51 @@ describe('inspectReducer', () => {
     expect(next.status).toBe('error');
     expect(next.errorCode).toBe('INVALID_FORMAT');
     expect(next.errorMessage).toBe('Not a valid image');
-    expect(next.blob).toBeUndefined();
+  });
+
+  it('INGEST_ERROR → 既存の blob は維持される (どの画像が失敗したか UI で示すため)', () => {
+    const loaded = inspectReducer(initialInspectState, {
+      type: 'BLOB_LOADED',
+      blob: mockBlob,
+      source: mockSource,
+    });
+    const errored = inspectReducer(loaded, {
+      type: 'INGEST_ERROR',
+      code: 'PARSE_ERROR',
+      message: 'EXIF parse failed',
+    });
+    expect(errored.status).toBe('error');
+    expect(errored.blob).toBe(mockBlob);
+    expect(errored.source).toEqual(mockSource);
+    // summary は失敗したのでクリアされる
+    expect(errored.summary).toBeUndefined();
+  });
+
+  it('BLOB_LOADED → status: loading 維持、blob と source をセット', () => {
+    const next = inspectReducer(initialInspectState, {
+      type: 'BLOB_LOADED',
+      blob: mockBlob,
+      source: mockSource,
+    });
+    expect(next.status).toBe('loading');
+    expect(next.blob).toBe(mockBlob);
+    expect(next.source).toEqual(mockSource);
+    expect(next.summary).toBeUndefined();
+  });
+
+  it('BLOB_LOADED → 直前のエラーフィールドをクリアする', () => {
+    const errored = inspectReducer(initialInspectState, {
+      type: 'INGEST_ERROR',
+      code: 'X',
+      message: 'old error',
+    });
+    const reloaded = inspectReducer(errored, {
+      type: 'BLOB_LOADED',
+      blob: mockBlob,
+      source: mockSource,
+    });
+    expect(reloaded.errorCode).toBeUndefined();
+    expect(reloaded.errorMessage).toBeUndefined();
   });
 
   it('SET_QUERY → filter.query を更新する', () => {

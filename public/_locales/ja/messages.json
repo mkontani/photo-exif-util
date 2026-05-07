@@ -156,6 +156,229 @@
     "description": "空状態プレースホルダーのヒント"
   },
 
+  "errui_unknown_title": {
+    "message": "予期せぬエラーが発生しました",
+    "description": "未知エラーのフォールバック"
+  },
+  "errui_unknown_desc": {
+    "message": "画像の処理中に問題が発生しました。",
+    "description": "未知エラーの説明"
+  },
+  "errui_empty_input_title": {
+    "message": "画像データが空です",
+    "description": "空入力時のタイトル"
+  },
+  "errui_empty_input_desc": {
+    "message": "選択したファイルまたは URL の中身が空でした。",
+    "description": "空入力の説明"
+  },
+  "errui_empty_input_hint": {
+    "message": "別の画像を選択してください。",
+    "description": "空入力のヒント"
+  },
+  "errui_too_large_title": {
+    "message": "ファイルサイズが大きすぎます",
+    "description": "サイズ上限のタイトル"
+  },
+  "errui_too_large_desc": {
+    "message": "50 MB を超える画像はサポートされていません。",
+    "description": "サイズ上限の説明"
+  },
+  "errui_too_large_hint": {
+    "message": "画像をリサイズ・圧縮してから再度お試しください。",
+    "description": "サイズ上限のヒント"
+  },
+  "errui_invalid_format_title": {
+    "message": "サポートされていない画像形式です",
+    "description": "形式エラーのタイトル"
+  },
+  "errui_invalid_format_desc": {
+    "message": "JPEG / PNG / WebP のみサポートしています。ファイルが画像でないか、拡張子と中身が一致していない可能性があります。",
+    "description": "形式エラーの説明"
+  },
+  "errui_invalid_format_hint": {
+    "message": "JPEG / PNG / WebP に変換してから再度お試しください。",
+    "description": "形式エラーのヒント"
+  },
+  "errui_parse_error_title": {
+    "message": "EXIF データの読み取りに失敗しました",
+    "description": "EXIF パース失敗のタイトル"
+  },
+  "errui_parse_error_desc": {
+    "message": "ファイルが破損しているか、EXIF セグメントが壊れている可能性があります。",
+    "description": "EXIF パース失敗の説明"
+  },
+  "errui_parse_error_hint": {
+    "message": "別の画像をお試しいただくか、画像編集ソフトから書き出し直してください。",
+    "description": "EXIF パース失敗のヒント"
+  },
+  "errui_invalid_url_title": {
+    "message": "URL が不正です",
+    "description": "不正 URL のタイトル"
+  },
+  "errui_invalid_url_desc": {
+    "message": "入力された URL は有効なアドレスではありません。",
+    "description": "不正 URL の説明"
+  },
+  "errui_invalid_url_hint": {
+    "message": "https:// で始まる画像 URL であることを確認してください。",
+    "description": "不正 URL のヒント"
+  },
+  "errui_blocked_url_title": {
+    "message": "セキュリティ上、この URL は使用できません",
+    "description": "ブロック URL のタイトル"
+  },
+  "errui_blocked_url_desc": {
+    "message": "ローカルネットワーク / file:// などの URL は SSRF 防止のためブロックしています。",
+    "description": "ブロック URL の説明"
+  },
+  "errui_blocked_url_hint": {
+    "message": "公開されている https:// の画像 URL を使用してください。",
+    "description": "ブロック URL のヒント"
+  },
+  "errui_fetch_failed_title": {
+    "message": "画像を取得できませんでした",
+    "description": "fetch 失敗のタイトル"
+  },
+  "errui_fetch_failed_desc": {
+    "message": "URL から応答がない、サーバーがエラーを返した、またはクロスオリジン制限で取得が拒否された可能性があります。",
+    "description": "fetch 失敗の説明"
+  },
+  "errui_fetch_failed_hint": {
+    "message": "URL を確認するか、画像を保存してドラッグ&ドロップでお試しください。",
+    "description": "fetch 失敗のヒント"
+  },
+  "errui_cors_blocked_title": {
+    "message": "サーバー側で取得が拒否されました",
+    "description": "CORS ブロックのタイトル"
+  },
+  "errui_cors_blocked_desc": {
+    "message": "リモートサーバーが画像のダウンロードを許可していません。",
+    "description": "CORS ブロックの説明"
+  },
+  "errui_cors_blocked_hint": {
+    "message": "画像を保存して、ここにドラッグ&ドロップしてください。",
+    "description": "CORS ブロックのヒント"
+  },
+  "errui_permission_denied_title": {
+    "message": "権限が許可されませんでした",
+    "description": "権限拒否のタイトル"
+  },
+  "errui_permission_denied_desc": {
+    "message": "この URL に対するホスト権限が許可されませんでした。",
+    "description": "権限拒否の説明"
+  },
+  "errui_strip_error_title": {
+    "message": "EXIF の削除に失敗しました",
+    "description": "strip 失敗のタイトル"
+  },
+  "errui_strip_error_desc": {
+    "message": "メタデータの削除中にエラーが発生しました。",
+    "description": "strip 失敗の説明"
+  },
+  "errui_decode_failed_title": {
+    "message": "画像のデコードに失敗しました",
+    "description": "デコード失敗のタイトル"
+  },
+  "errui_decode_failed_desc": {
+    "message": "ブラウザがこの画像を表示できませんでした。",
+    "description": "デコード失敗の説明"
+  },
+  "errui_resize_failed_title": {
+    "message": "リサイズに失敗しました",
+    "description": "リサイズ失敗のタイトル"
+  },
+  "errui_resize_failed_desc": {
+    "message": "画像のリサイズ中にエラーが発生しました。",
+    "description": "リサイズ失敗の説明"
+  },
+  "errui_encode_failed_title": {
+    "message": "画像の保存に失敗しました",
+    "description": "エンコード失敗のタイトル"
+  },
+  "errui_encode_failed_desc": {
+    "message": "出力の生成中にエラーが発生しました。",
+    "description": "エンコード失敗の説明"
+  },
+  "errui_size_target_unreachable_title": {
+    "message": "目標サイズに到達できませんでした",
+    "description": "サイズ目標未達のタイトル"
+  },
+  "errui_size_target_unreachable_desc": {
+    "message": "画像は保存されましたが、SNS の目標サイズより大きい結果になっています。",
+    "description": "サイズ目標未達の説明"
+  },
+  "errui_invalid_profile_title": {
+    "message": "SNS プロファイルが不正です",
+    "description": "不正プロファイルのタイトル"
+  },
+  "errui_invalid_profile_desc": {
+    "message": "選択された SNS プロファイルは利用できません。",
+    "description": "不正プロファイルの説明"
+  },
+  "errui_bridge_error_title": {
+    "message": "通信エラー",
+    "description": "Bridge エラーのタイトル"
+  },
+  "errui_bridge_error_desc": {
+    "message": "バックグラウンドサービスとの通信に失敗しました。",
+    "description": "Bridge エラーの説明"
+  },
+  "errui_invalid_response_title": {
+    "message": "不正なレスポンス",
+    "description": "不正レスポンスのタイトル"
+  },
+  "errui_invalid_response_desc": {
+    "message": "バックグラウンドサービスから予期しない応答が返されました。",
+    "description": "不正レスポンスの説明"
+  },
+  "errui_show_detail": {
+    "message": "詳細を表示",
+    "description": "詳細展開ボタンのラベル"
+  },
+  "errui_dismiss": {
+    "message": "閉じる",
+    "description": "エラーパネルを閉じるボタンのラベル"
+  },
+
+  "summary_filename": {
+    "message": "ファイル名",
+    "description": "画像サマリーのファイル名ラベル"
+  },
+  "summary_format": {
+    "message": "形式",
+    "description": "画像サマリーの形式ラベル"
+  },
+  "summary_size": {
+    "message": "サイズ",
+    "description": "画像サマリーのサイズラベル"
+  },
+  "summary_dimensions": {
+    "message": "寸法",
+    "description": "画像サマリーの寸法ラベル"
+  },
+  "summary_field_count": {
+    "message": "EXIF フィールド数",
+    "description": "EXIF フィールド数のラベル"
+  },
+  "summary_high_risk_count": {
+    "message": "高リスクフィールド",
+    "description": "高リスクフィールド数のラベル"
+  },
+
+  "loading_phase_fetching": {
+    "message": "画像を取得中…",
+    "description": "ローディング: URL から取得中"
+  },
+  "loading_phase_validating": {
+    "message": "画像を検証中…",
+    "description": "ローディング: 形式・サイズ確認中"
+  },
+  "loading_phase_parsing": {
+    "message": "EXIF を読み取り中…",
+    "description": "ローディング: EXIF 解析中"
+  },
+
   "options_title": {
     "message": "Photo EXIF Util — 設定",
     "description": "オプションページのタイトル"
