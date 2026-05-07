@@ -15,8 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - アイコン元データを `assets/source-icons/icon-original.png` に分離 (1.2 MB)。
   `public/` 配下に置くと Vite が dist にコピーして配布 zip に混入するため、
   `assets/` 配下に移動して配布物から除外した。
-- Web Store 用プロモ素材ディレクトリ `promos/` を追加。`promo-small.png`
+- Web Store 用プロモ素材ディレクトリ `assets/promos/` を追加。`promo-small.png`
   (Chrome Web Store の Small promo tile 440×280) を初期コミット。
+  ソース素材を `assets/` 配下に集約することで、配布物 (dist) との分離を明確化。
 
 ### Docs
 - `docs/RELEASE.md`: アイコン差し替え手順を「プレースホルダ生成」から

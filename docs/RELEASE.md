@@ -46,9 +46,9 @@ GitHub Actions (`.github/workflows/release.yml`) が以下を自動実行:
 
 ### Web Store プロモ素材
 
-`promos/promo-small.png` は Chrome Web Store の "Small promo tile" (440×280) 用。
+`assets/promos/promo-small.png` は Chrome Web Store の "Small promo tile" (440×280) 用。
 追加サイズ (`promo-large.png` 920×680、`promo-marquee.png` 1400×560 など) を作成した場合も
-`promos/` に配置する。
+`assets/promos/` に配置する。
 
 ### 推奨ツール
 
