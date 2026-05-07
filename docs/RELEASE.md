@@ -55,9 +55,11 @@ GitHub Actions (`.github/workflows/release.yml`) が以下を自動実行:
 4. プライバシーの同意:
    - [PRIVACY.md](../PRIVACY.md) を GitHub Pages 等で公開し URL を登録
    - 「ユーザーデータを収集しない」を選択 (本拡張はデータを外部送信しません)
-5. `optional_host_permissions: ['<all_urls>']` の Justification を記入:
-   - 用途: ユーザーが入力した URL から画像を取得するため
-   - Background Service Worker 経由で fetch、コンテンツスクリプトから直接アクセスしない旨
+5. `host_permissions: ['*://*/*']` の Justification を記入:
+   - 用途: ユーザーが入力した URL / 右クリックメニューから取得した画像 URL に対する fetch
+   - MV3 では Background SW からの fetch でも対象ホストの host_permissions が必要 (CORS 制約)
+   - Background Service Worker 経由で fetch、コンテンツスクリプトから直接アクセスしない
+   - `*://*/*` は http / https のみ許可し、file:// 等は除外している (`<all_urls>` よりも狭い)
 6. 審査提出 → 通常 1〜3 営業日
 
 ## Manual release (緊急時)
