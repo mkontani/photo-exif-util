@@ -1,0 +1,11 @@
+pre-commit:
+  parallel: false
+  commands:
+    biome-check:
+      glob: "*.{ts,tsx,js,jsx,json}"
+      run: pnpm biome check --write {staged_files}
+      stage_fixed: true
+    typecheck:
+      run: pnpm tsc --noEmit
+    test:
+      run: pnpm vitest run --reporter=dot

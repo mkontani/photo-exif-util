@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+/* ライトモードのベーストークン */
+@theme {
+  --color-bg: #ffffff;
+  --color-fg: #0f172a;
+  --color-surface: #f8fafc;
+  --color-border: #e2e8f0;
+  --color-muted: #64748b;
+}
+
+/* 最小リセット */
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+/* ダークモードトークン: [data-theme="dark"] 属性で切替 */
+[data-theme="dark"] {
+  --color-bg: #0f172a;
+  --color-fg: #f1f5f9;
+  --color-surface: #1e293b;
+  --color-border: #334155;
+  --color-muted: #94a3b8;
+}
+
+/* theme=auto 時: prefers-color-scheme でシステム設定に追従 */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg: #0f172a;
+    --color-fg: #f1f5f9;
+    --color-surface: #1e293b;
+    --color-border: #334155;
+    --color-muted: #94a3b8;
+  }
+}

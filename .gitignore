@@ -1,0 +1,60 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+build/
+
+# Test output
+coverage/
+.nyc_output/
+
+# Playwright
+test-results/
+playwright-report/
+blob-report/
+.playwright/
+
+# Cache
+.cache/
+tests/fixtures/.cache/
+
+# TypeScript
+*.tsbuildinfo
+
+# Vite
+*.local
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Chrome extension packed files
+*.crx
+*.pem
+chrome-extension.zip
+
+# Temporary files
+*.tmp
+*.temp

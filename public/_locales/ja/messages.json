@@ -1,0 +1,211 @@
+{
+  "extName": {
+    "message": "Photo EXIF Util",
+    "description": "拡張機能名"
+  },
+  "extDescription": {
+    "message": "写真のEXIFメタデータを表示・分析・削除します。完全クライアントサイド処理で、データは端末外に送信されません。",
+    "description": "Chromeウェブストアおよび拡張機能管理ページに表示される説明"
+  },
+  "contextMenuOpen": {
+    "message": "Photo EXIF Util で開く",
+    "description": "画像を右クリックした際のコンテキストメニュー項目"
+  },
+  "commandOpenSidePanel": {
+    "message": "サイドパネルを開く",
+    "description": "キーボードショートカットコマンドの説明"
+  },
+
+  "error_INVALID_URL": {
+    "message": "無効な URL です",
+    "description": "URL が有効でない場合のエラー"
+  },
+  "error_BLOCKED_URL": {
+    "message": "セキュリティ上の理由により URL がブロックされました",
+    "description": "URL がブロックされた場合のエラー"
+  },
+  "error_FETCH_FAILED": {
+    "message": "URL からの画像取得に失敗しました",
+    "description": "ネットワーク取得に失敗した場合のエラー"
+  },
+  "error_TOO_LARGE": {
+    "message": "画像ファイルが大きすぎます",
+    "description": "画像がサイズ制限を超えた場合のエラー"
+  },
+  "error_INVALID_FORMAT": {
+    "message": "サポートされていない画像形式です",
+    "description": "画像形式がサポートされていない場合のエラー"
+  },
+  "error_EMPTY_INPUT": {
+    "message": "画像が指定されていません",
+    "description": "入力が空の場合のエラー"
+  },
+  "error_PARSE_ERROR": {
+    "message": "EXIF データの解析に失敗しました",
+    "description": "EXIF 解析に失敗した場合のエラー"
+  },
+  "error_STRIP_ERROR": {
+    "message": "EXIF データの削除に失敗しました",
+    "description": "EXIF 削除に失敗した場合のエラー"
+  },
+  "error_DECODE_FAILED": {
+    "message": "画像のデコードに失敗しました",
+    "description": "画像デコードに失敗した場合のエラー"
+  },
+  "error_RESIZE_FAILED": {
+    "message": "画像のリサイズに失敗しました",
+    "description": "画像リサイズに失敗した場合のエラー"
+  },
+  "error_ENCODE_FAILED": {
+    "message": "画像のエンコードに失敗しました",
+    "description": "画像エンコードに失敗した場合のエラー"
+  },
+  "error_INVALID_PROFILE": {
+    "message": "無効な SNS プロファイルです",
+    "description": "SNS プロファイルが見つからない場合のエラー"
+  },
+  "error_SIZE_TARGET_UNREACHABLE": {
+    "message": "目標ファイルサイズに到達できません",
+    "description": "目標ファイルサイズが達成できない場合のエラー"
+  },
+  "error_BRIDGE_ERROR": {
+    "message": "バックグラウンドサービスとの通信エラー",
+    "description": "メッセージブリッジが失敗した場合のエラー"
+  },
+  "error_INVALID_RESPONSE": {
+    "message": "バックグラウンドサービスからの不正なレスポンス",
+    "description": "バックグラウンドのレスポンス形式が無効な場合のエラー"
+  },
+
+  "tab_inspect": {
+    "message": "検査",
+    "description": "EXIF 検査タブのラベル"
+  },
+  "tab_strip": {
+    "message": "削除",
+    "description": "EXIF 削除タブのラベル"
+  },
+  "tab_optimize": {
+    "message": "最適化",
+    "description": "画像最適化タブのラベル"
+  },
+  "dropzone_hint": {
+    "message": "画像をドロップするか URL を入力してください",
+    "description": "ドロップゾーンのヒントテキスト"
+  },
+  "dropzone_formats": {
+    "message": "JPEG / PNG / WebP",
+    "description": "ドロップゾーンに表示する対応フォーマット"
+  },
+  "dropzone_url_label": {
+    "message": "URL から取り込む",
+    "description": "ドロップゾーンの URL 入力のラベル"
+  },
+  "dropzone_aria_label": {
+    "message": "画像をドロップまたはクリックして選択",
+    "description": "ドロップゾーンボタンのアクセシブルラベル"
+  },
+  "risk_high": {
+    "message": "高",
+    "description": "リスクレベル: 高"
+  },
+  "risk_medium": {
+    "message": "中",
+    "description": "リスクレベル: 中"
+  },
+  "risk_low": {
+    "message": "低",
+    "description": "リスクレベル: 低"
+  },
+  "risk_none": {
+    "message": "なし",
+    "description": "リスクレベル: なし"
+  },
+
+  "app_reset": {
+    "message": "リセット",
+    "description": "現在の画像検査をリセットするボタンのラベル"
+  },
+  "app_loading": {
+    "message": "解析中...",
+    "description": "EXIF データ解析中に表示するローディングテキスト"
+  },
+  "app_error_prefix": {
+    "message": "エラー:",
+    "description": "エラーメッセージの前に表示するプレフィックス"
+  },
+  "app_highest_risk": {
+    "message": "最高リスク:",
+    "description": "最高リスクバッジの前に表示するラベル"
+  },
+  "app_gps_present": {
+    "message": "GPS あり",
+    "description": "画像に GPS データが含まれている場合に表示するバッジ"
+  },
+  "app_load_image_first": {
+    "message": "まず「検査」タブで画像を読み込んでください",
+    "description": "画像が読み込まれる前に strip/optimize タブに表示するプレースホルダー"
+  },
+
+  "empty_state_title": {
+    "message": "画像が選択されていません",
+    "description": "空状態プレースホルダーのタイトル"
+  },
+  "empty_state_hint": {
+    "message": "上のエリアから画像を取り込んでください",
+    "description": "空状態プレースホルダーのヒント"
+  },
+
+  "options_title": {
+    "message": "Photo EXIF Util — 設定",
+    "description": "オプションページのタイトル"
+  },
+  "options_default_profile": {
+    "message": "デフォルト SNS プロファイル",
+    "description": "デフォルト SNS プロファイルセレクターのラベル"
+  },
+  "options_theme": {
+    "message": "テーマ",
+    "description": "テーマセレクターのラベル"
+  },
+  "theme_auto": {
+    "message": "自動 (システムに従う)",
+    "description": "テーマオプション: システム設定に従う"
+  },
+  "theme_light": {
+    "message": "ライト",
+    "description": "テーマオプション: 常にライト"
+  },
+  "theme_dark": {
+    "message": "ダーク",
+    "description": "テーマオプション: 常にダーク"
+  },
+  "options_saved": {
+    "message": "設定を保存しました",
+    "description": "設定が保存されたときのメッセージ"
+  },
+  "options_save_error": {
+    "message": "設定の保存に失敗しました: $ERROR_DETAIL$",
+    "description": "設定の保存失敗時のエラーメッセージ、$ERROR_DETAIL$ はエラー内容",
+    "placeholders": {
+      "error_detail": {
+        "content": "$1",
+        "example": "QuotaExceeded"
+      }
+    }
+  },
+  "riskbadge_aria": {
+    "message": "リスクレベル: $RISK_LEVEL$",
+    "description": "リスクバッジのアクセシブルラベル、$RISK_LEVEL$ はリスクレベル表示名",
+    "placeholders": {
+      "risk_level": {
+        "content": "$1",
+        "example": "高"
+      }
+    }
+  },
+  "qualityslider_aria": {
+    "message": "画像品質",
+    "description": "品質スライダーのアクセシブルラベル"
+  }
+}

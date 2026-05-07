@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  ci:
+    name: CI (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['20', '22']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Type check
+        run: pnpm typecheck
+
+      - name: Lint (Biome)
+        run: pnpm lint
+
+      - name: Test with coverage
+        run: pnpm test:coverage
+
+      - name: Audit production dependencies
+        # 脆弱性があっても CI を止めない (アドバイザリ確認のみ)
+        run: pnpm audit --prod
+        continue-on-error: true
+
+      - name: Generate icons
+        run: pnpm gen:icons
+
+      - name: Build extension
+        run: pnpm build
+
+      - name: Pack extension zip
+        run: pnpm pack:zip
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 7
+
+      - name: Upload extension zip
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: chrome-extension
+          path: chrome-extension.zip
+          retention-days: 30

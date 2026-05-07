@@ -1,0 +1,211 @@
+{
+  "extName": {
+    "message": "Photo EXIF Util",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "View, analyze, and strip EXIF metadata from photos — fully client-side, no data leaves your device.",
+    "description": "Extension description shown in Chrome Web Store and extension management page"
+  },
+  "contextMenuOpen": {
+    "message": "Open with Photo EXIF Util",
+    "description": "Context menu item shown when right-clicking an image"
+  },
+  "commandOpenSidePanel": {
+    "message": "Open side panel",
+    "description": "Keyboard shortcut command description"
+  },
+
+  "error_INVALID_URL": {
+    "message": "Invalid URL",
+    "description": "Error when the URL is not a valid URL"
+  },
+  "error_BLOCKED_URL": {
+    "message": "URL is blocked for security reasons",
+    "description": "Error when the URL is blocked (private IP, etc.)"
+  },
+  "error_FETCH_FAILED": {
+    "message": "Failed to fetch image from URL",
+    "description": "Error when network fetch fails"
+  },
+  "error_TOO_LARGE": {
+    "message": "Image file is too large",
+    "description": "Error when image exceeds size limit"
+  },
+  "error_INVALID_FORMAT": {
+    "message": "Unsupported image format",
+    "description": "Error when image format is not supported"
+  },
+  "error_EMPTY_INPUT": {
+    "message": "No image provided",
+    "description": "Error when input is empty"
+  },
+  "error_PARSE_ERROR": {
+    "message": "Failed to parse EXIF data",
+    "description": "Error when EXIF parsing fails"
+  },
+  "error_STRIP_ERROR": {
+    "message": "Failed to strip EXIF data",
+    "description": "Error when EXIF stripping fails"
+  },
+  "error_DECODE_FAILED": {
+    "message": "Failed to decode image",
+    "description": "Error when image decoding fails"
+  },
+  "error_RESIZE_FAILED": {
+    "message": "Failed to resize image",
+    "description": "Error when image resizing fails"
+  },
+  "error_ENCODE_FAILED": {
+    "message": "Failed to encode image",
+    "description": "Error when image encoding fails"
+  },
+  "error_INVALID_PROFILE": {
+    "message": "Invalid SNS profile",
+    "description": "Error when SNS profile is not found"
+  },
+  "error_SIZE_TARGET_UNREACHABLE": {
+    "message": "Cannot reach target file size",
+    "description": "Error when target file size cannot be achieved"
+  },
+  "error_BRIDGE_ERROR": {
+    "message": "Communication error with background service",
+    "description": "Error when messaging bridge fails"
+  },
+  "error_INVALID_RESPONSE": {
+    "message": "Invalid response from background service",
+    "description": "Error when background response format is invalid"
+  },
+
+  "tab_inspect": {
+    "message": "Inspect",
+    "description": "Tab label for EXIF inspection"
+  },
+  "tab_strip": {
+    "message": "Strip",
+    "description": "Tab label for EXIF stripping"
+  },
+  "tab_optimize": {
+    "message": "Optimize",
+    "description": "Tab label for image optimization"
+  },
+  "dropzone_hint": {
+    "message": "Drop an image here or enter a URL",
+    "description": "Hint text shown in the drop zone"
+  },
+  "dropzone_formats": {
+    "message": "JPEG / PNG / WebP",
+    "description": "Supported image formats shown in the drop zone"
+  },
+  "dropzone_url_label": {
+    "message": "Import from URL",
+    "description": "Label for the URL input in the drop zone"
+  },
+  "dropzone_aria_label": {
+    "message": "Drop or click to select an image",
+    "description": "Accessible label for the drop zone button"
+  },
+  "risk_high": {
+    "message": "High",
+    "description": "Risk level: high"
+  },
+  "risk_medium": {
+    "message": "Medium",
+    "description": "Risk level: medium"
+  },
+  "risk_low": {
+    "message": "Low",
+    "description": "Risk level: low"
+  },
+  "risk_none": {
+    "message": "None",
+    "description": "Risk level: none"
+  },
+
+  "app_reset": {
+    "message": "Reset",
+    "description": "Button label to reset the current image inspection"
+  },
+  "app_loading": {
+    "message": "Analyzing...",
+    "description": "Loading text shown while parsing EXIF data"
+  },
+  "app_error_prefix": {
+    "message": "Error:",
+    "description": "Prefix shown before an error message"
+  },
+  "app_highest_risk": {
+    "message": "Highest risk:",
+    "description": "Label shown before the highest risk badge"
+  },
+  "app_gps_present": {
+    "message": "GPS present",
+    "description": "Badge shown when the image contains GPS data"
+  },
+  "app_load_image_first": {
+    "message": "Load an image in the Inspect tab first",
+    "description": "Placeholder shown in strip/optimize tabs before an image is loaded"
+  },
+
+  "empty_state_title": {
+    "message": "No image selected",
+    "description": "Title in the empty state placeholder"
+  },
+  "empty_state_hint": {
+    "message": "Import an image from the area above",
+    "description": "Hint in the empty state placeholder"
+  },
+
+  "options_title": {
+    "message": "Photo EXIF Util — Settings",
+    "description": "Options page title"
+  },
+  "options_default_profile": {
+    "message": "Default SNS Profile",
+    "description": "Label for default SNS profile selector"
+  },
+  "options_theme": {
+    "message": "Theme",
+    "description": "Label for theme selector"
+  },
+  "theme_auto": {
+    "message": "Auto (follow system)",
+    "description": "Theme option: follow system preference"
+  },
+  "theme_light": {
+    "message": "Light",
+    "description": "Theme option: always light"
+  },
+  "theme_dark": {
+    "message": "Dark",
+    "description": "Theme option: always dark"
+  },
+  "options_saved": {
+    "message": "Settings saved",
+    "description": "Message shown when settings are saved"
+  },
+  "options_save_error": {
+    "message": "Failed to save settings: $ERROR_DETAIL$",
+    "description": "Error message shown when settings save fails",
+    "placeholders": {
+      "error_detail": {
+        "content": "$1",
+        "example": "QuotaExceeded"
+      }
+    }
+  },
+  "riskbadge_aria": {
+    "message": "Risk level: $RISK_LEVEL$",
+    "description": "Accessible label for risk badge, $RISK_LEVEL$ is the risk level label",
+    "placeholders": {
+      "risk_level": {
+        "content": "$1",
+        "example": "High"
+      }
+    }
+  },
+  "qualityslider_aria": {
+    "message": "Image quality",
+    "description": "Accessible label for the quality slider"
+  }
+}
