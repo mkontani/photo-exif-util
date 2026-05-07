@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **画像取り込み完了後にサムネイル + メタ情報サマリ表示** (`ImageSummary`): ファイル名 /
   形式 / サイズ / 寸法 / EXIF フィールド数 / 高リスクフィールド数を一覧表示。
   ユーザーが画像が正しく読み込まれたかを即座に判別可能に。
+- **ローディング / エラー時もサムネイル表示**: 取り込み開始直後 (loading) や
+  EXIF 解析失敗時 (error) でも、いま処理対象になっている画像のサムネイル + ファイル名 /
+  サイズ を表示。これにより「どの画像が指定されているのかわからない」という UX
+  問題を解消した。新規 reducer アクション `BLOB_LOADED` で blob のみ先行確定する設計。
 - **ローディング表示を改善**: 「解析中…」のみだった表示を、フェーズ別 (取得中 / 検証中 /
   EXIF 読取中) + lucide スピナーアニメーションへ変更。
 - **DropZone と header の視覚改善**: lucide アイコン (Upload / Link2 / RotateCcw)
@@ -27,9 +31,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `src/utils/error-display.ts` — エラーコード → UI 表示情報マッピングの純粋関数
 - `src/utils/format-size.ts` — バイト数 / 寸法を人間可読に整形する純粋関数
 - `src/ui/components/ErrorPanel.tsx` — 構造化エラー表示コンポーネント
-- `src/ui/components/ImageSummary.tsx` — 画像サマリ + サムネイル表示
+- `src/ui/components/ImageSummary.tsx` — 画像サマリ + サムネイル表示 (summary 任意化済み)
 - `src/ui/components/LoadingIndicator.tsx` — フェーズ別ローディング表示
 - 41 件の i18n キー追加 (en/ja 両言語)
+
+## [0.1.3] - 2026-05-08
+
+### Fixed
+- URL から画像を取得した際に CORS エラー (`Access to fetch at '<URL>' from origin
+  'chrome-extension://...' has been blocked by CORS policy: No 'Access-Control-Allow-Origin'
+  header is present`) で取得が失敗する問題を修正。
+  Manifest V3 では Background SW からの fetch でも、対象ホストの `host_permissions`
+  を持っていないと CORS 制約が適用される。`optional_host_permissions` のままでは
+  ユーザー同意が取られていないため事実上無効状態になっていた。
+- `host_permissions: ['*://*/*']` (http/https 任意ホスト) を **required** に昇格。
+  既存ユーザーは権限再承認が必要 (Chrome の拡張管理ページで「権限を承認」ボタンが表示される)。
+
+### Changed
+- `optional_host_permissions: ['<all_urls>']` を削除し、`host_permissions: ['*://*/*']`
+  に置換。`*://*/*` は http/https のみを許可し、`<all_urls>` (file:// 等を含む) より
+  狭く制限。
 
 ## [0.1.2] - 2026-05-07
 

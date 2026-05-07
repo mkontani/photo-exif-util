@@ -8,8 +8,14 @@ export default defineManifest({
   version: '0.2.0',
   minimum_chrome_version: '116',
   permissions: ['contextMenus', 'sidePanel', 'storage'],
-  // @ts-expect-error @crxjs/vite-plugin の型定義に optional_host_permissions が未反映
-  optional_host_permissions: ['<all_urls>'],
+  // host_permissions を required で宣言する。
+  // 理由: MV3 では Background SW からの fetch でも、対象ホストの host_permissions を
+  // 持っていないと CORS 制約が適用される。URL からの画像取得は本拡張のコア機能のため、
+  // optional ではなく required で宣言してインストール時に同意を取る方が UX が良い。
+  // PRIVACY.md の justification: 「ユーザーが入力した URL から画像を取得するためのみ
+  // に使用し、Background Service Worker 経由で fetch、コンテンツスクリプトから直接
+  // アクセスしない」を Web Store 提出時に登録する。
+  host_permissions: ['*://*/*'],
   // MV3 CSP: script-src / object-src を 'self' に限定。
   // style-src 'unsafe-inline' は Tailwind v4 のインラインスタイル出力に必須。
   // img-src に blob: / data: を含めるのは Blob URL / Data URL のプレビュー表示に必要。
