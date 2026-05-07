@@ -1,0 +1,79 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/manifest.config.ts'
+  workflow_dispatch: {}
+
+jobs:
+  release:
+    name: Release on version bump
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Extract version from manifest.config.ts
+        id: version
+        run: |
+          VERSION=$(grep -oE "version:[[:space:]]*['\"][0-9]+\.[0-9]+\.[0-9]+['\"]" src/manifest.config.ts | head -1 | grep -oE "[0-9]+\.[0-9]+\.[0-9]+")
+          if [ -z "$VERSION" ]; then
+            echo "::error::Could not extract version from src/manifest.config.ts"
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Detected version: $VERSION"
+
+      - name: Check if tag already exists
+        id: tag_check
+        run: |
+          if git rev-parse "v${{ steps.version.outputs.version }}" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Tag v${{ steps.version.outputs.version }} already exists, skipping release"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Tag v${{ steps.version.outputs.version }} does not exist, proceeding with release"
+          fi
+
+      - name: Install dependencies
+        if: steps.tag_check.outputs.exists == 'false'
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify quality (typecheck + lint + tests)
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          pnpm typecheck
+          pnpm lint
+          pnpm test
+
+      - name: Build & pack
+        if: steps.tag_check.outputs.exists == 'false'
+        run: pnpm release
+
+      - name: Create GitHub Release with zip asset
+        if: steps.tag_check.outputs.exists == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: v${{ steps.version.outputs.version }}
+          generate_release_notes: true
+          files: chrome-extension.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
