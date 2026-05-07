@@ -1,47 +1,48 @@
 # Photo EXIF Util
 
-> 写真の EXIF メタデータを表示・分析・削除する Chrome 拡張機能。
-> **完全クライアントサイド処理** — データは端末外に一切送信されません。
+> Chrome extension to view, analyze, and strip EXIF metadata from photos.
+> **Fully client-side** — no data ever leaves your device.
 
-## 機能
+## Features
 
-- 📷 JPEG / PNG / WebP の EXIF メタデータを即時解析
-- 🗺️ GPS・デバイス・シリアル番号など **プライバシーリスクを可視化**
-- 🧹 メタデータをカテゴリ別に削除し、クリーンな画像をダウンロード
-- 📐 X / Instagram / LINE / Bluesky など **11 種の SNS プロファイル** に最適化リサイズ
-- 🌗 ライト / ダーク / システム連動テーマ
-- 🇯🇵 🇺🇸 日本語 / 英語の i18n
+- 📷 Inspect EXIF metadata of JPEG / PNG / WebP images instantly
+- 🗺️ **Visualize privacy risks** (GPS coordinates, camera serial numbers, etc.)
+- 🧹 Strip metadata by category and download a clean image
+- 📐 Optimize images for **11 SNS profiles** (X, Instagram, LINE, Bluesky, …)
+- 🌗 Light / Dark / system-preference theme
+- 🇯🇵 🇺🇸 i18n: Japanese / English
 
-## インストール
+## Install
 
-### Chrome Web Store (公開後)
+### Chrome Web Store
 
-> Web Store 公開準備中。
+> Pending publication.
 
-### 開発版を手動インストール
+### Developer build (manual install)
 
-1. [Releases ページ](https://github.com/mkontani/photo-exif-util/releases) から `chrome-extension.zip` をダウンロードして展開
-2. `chrome://extensions/` を開き「デベロッパーモード」を有効化
-3. 「パッケージ化されていない拡張機能を読み込む」で展開したフォルダを選択
+1. Download `chrome-extension.zip` from the [Releases page](https://github.com/mkontani/photo-exif-util/releases) and unzip it
+2. Open `chrome://extensions/` and enable **Developer mode**
+3. Click **Load unpacked** and select the unzipped folder
 
-## 使い方
+## Usage
 
-1. ブラウザツールバーの拡張アイコン → 「サイドパネルを開く」
-   - または右クリック → 「Photo EXIF Util で開く」 (画像を右クリック時)
-   - またはショートカット `Ctrl+Shift+E` (mac: `⌘+Shift+E`)
-2. 画像をドロップ / ファイル選択 / URL 入力で取り込み
-3. 「検査」「削除」「最適化」タブで操作
+1. Open the side panel via:
+   - The toolbar icon → **Open side panel**, or
+   - Right-click an image → **Open with Photo EXIF Util**, or
+   - Keyboard shortcut `Ctrl+Shift+E` (macOS: `⌘+Shift+E`)
+2. Provide an image by drag-and-drop, file picker, or URL
+3. Use the **Inspect / Strip / Optimize** tabs to operate
 
-## プライバシー
+## Privacy
 
-本拡張は **画像データを端末外へ一切送信しません**。すべての処理はブラウザ内で完結します。
-詳細は [PRIVACY.md](./PRIVACY.md) を参照してください。
+This extension **never sends image data outside your device**. All processing
+happens locally in the browser. See [PRIVACY.md](./PRIVACY.md) for details.
 
-## 開発・コントリビュート
+## Development & Contributing
 
-開発者向けの情報は [CONTRIBUTING.md](./CONTRIBUTING.md) を参照してください。
-リリースフローは [docs/RELEASE.md](./docs/RELEASE.md) を参照してください。
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for development setup and conventions.
+Release flow is documented in [docs/RELEASE.md](./docs/RELEASE.md).
 
-## ライセンス
+## License
 
 [MIT](./LICENSE) © 2026 Photo EXIF Util Contributors
