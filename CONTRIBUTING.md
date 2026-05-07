@@ -40,7 +40,7 @@ Chrome で `chrome://extensions/` → デベロッパーモード ON →
 | `pnpm vitest run path/to/file.test.ts` | 単一テストファイル実行 |
 | `pnpm vitest run -t "テスト名"` | 名前一致でテスト絞り込み |
 | `pnpm test:e2e` | Playwright E2E (要 `RUN_E2E=true`) |
-| `pnpm gen:icons` | プレースホルダアイコン生成 |
+| `pnpm gen:icons` | プレースホルダアイコンを再生成 (開発用、本番アイコンは手動差し替え。詳細は `docs/RELEASE.md` 参照) |
 | `pnpm pack:zip` | 配布 zip 生成 |
 | `pnpm release` | gen:icons + build + pack:zip 一気通貫 |
 

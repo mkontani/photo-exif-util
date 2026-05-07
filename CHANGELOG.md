@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-05-08
+
+### Changed
+- 本番アイコン素材に差し替え。`pnpm gen:icons` で生成されていた青円 + P 文字の
+  プレースホルダを廃止。
+- アイコン元データを `assets/source-icons/icon-original.png` に分離 (1.2 MB)。
+  `public/` 配下に置くと Vite が dist にコピーして配布 zip に混入するため、
+  `assets/` 配下に移動して配布物から除外した。
+- Web Store 用プロモ素材ディレクトリ `promos/` を追加。`promo-small.png`
+  (Chrome Web Store の Small promo tile 440×280) を初期コミット。
+
+### Docs
+- `docs/RELEASE.md`: アイコン差し替え手順を「プレースホルダ生成」から
+  「元データから手動エクスポート」に書き換え。
+
 ## [0.2.0] - 2026-05-08
 
 ### Changed
