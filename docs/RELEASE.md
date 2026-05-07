@@ -24,20 +24,31 @@ GitHub Actions (`.github/workflows/release.yml`) が以下を自動実行:
    ```
 4. GitHub Actions が release を自動生成 (https://github.com/mkontani/photo-exif-util/releases)
 
-## アイコン差し替え (Web Store 公開前 必須)
+## アイコン素材
 
-`pnpm gen:icons` で生成される `public/icons/icon-*.png` は **プレースホルダ**
-(青い円 + 白い「P」) です。Web Store 審査では実アイコンが必要です。
+本番アイコンは `public/icons/icon-{16,32,48,128}.png` にコミット済み。
+元データ (高解像度) は `assets/source-icons/icon-original.png` に保管。
+
+`pnpm gen:icons` は **暫定プレースホルダ生成スクリプト** であり、
+本番リリースでは使用しない。アイコンを差し替える場合は元データから手動で
+各サイズへエクスポートし、`public/icons/` を直接上書きする。
 
 ### 差し替え手順
 
-1. 以下のサイズで PNG を用意:
+1. `assets/source-icons/icon-original.png` を画像エディタで開き、各サイズで PNG エクスポート:
    - 16×16 (ファビコン / ツールバー小)
    - 32×32 (Windows 高 DPI)
    - 48×48 (拡張管理ページ)
    - 128×128 (Web Store ギャラリー、提出時必須)
 2. `public/icons/icon-{16,32,48,128}.png` を上書き
-3. version を bump して push → リリース自動生成
+3. `assets/source-icons/icon-original.png` も新しい元データに差し替え
+4. `src/manifest.config.ts` の version を bump して push → リリース自動生成
+
+### Web Store プロモ素材
+
+`assets/promos/promo-small.png` は Chrome Web Store の "Small promo tile" (440×280) 用。
+追加サイズ (`promo-large.png` 920×680、`promo-marquee.png` 1400×560 など) を作成した場合も
+`assets/promos/` に配置する。
 
 ### 推奨ツール
 
