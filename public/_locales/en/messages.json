@@ -156,6 +156,229 @@
     "description": "Hint in the empty state placeholder"
   },
 
+  "errui_unknown_title": {
+    "message": "Unexpected error",
+    "description": "Title for unknown error fallback"
+  },
+  "errui_unknown_desc": {
+    "message": "Something went wrong while processing the image.",
+    "description": "Description for unknown error fallback"
+  },
+  "errui_empty_input_title": {
+    "message": "No image data",
+    "description": "Title when empty input was provided"
+  },
+  "errui_empty_input_desc": {
+    "message": "The selected file or URL contains no data.",
+    "description": "Description for empty input"
+  },
+  "errui_empty_input_hint": {
+    "message": "Try selecting another image.",
+    "description": "Hint for empty input"
+  },
+  "errui_too_large_title": {
+    "message": "File is too large",
+    "description": "Title for size limit"
+  },
+  "errui_too_large_desc": {
+    "message": "Images larger than 50 MB are not supported.",
+    "description": "Description for size limit"
+  },
+  "errui_too_large_hint": {
+    "message": "Resize or compress the image and try again.",
+    "description": "Hint for size limit"
+  },
+  "errui_invalid_format_title": {
+    "message": "Unsupported format",
+    "description": "Title for invalid format"
+  },
+  "errui_invalid_format_desc": {
+    "message": "Only JPEG, PNG, and WebP are supported. The file may not be a valid image, or its content does not match its extension.",
+    "description": "Description for invalid format"
+  },
+  "errui_invalid_format_hint": {
+    "message": "Convert the image to JPEG / PNG / WebP and try again.",
+    "description": "Hint for invalid format"
+  },
+  "errui_parse_error_title": {
+    "message": "Failed to read EXIF data",
+    "description": "Title for EXIF parse failure"
+  },
+  "errui_parse_error_desc": {
+    "message": "The file appears to be corrupted or its EXIF section is malformed.",
+    "description": "Description for EXIF parse failure"
+  },
+  "errui_parse_error_hint": {
+    "message": "Try a different image, or re-export it from your image editor.",
+    "description": "Hint for EXIF parse failure"
+  },
+  "errui_invalid_url_title": {
+    "message": "Invalid URL",
+    "description": "Title for invalid URL"
+  },
+  "errui_invalid_url_desc": {
+    "message": "The URL you entered is not a valid web address.",
+    "description": "Description for invalid URL"
+  },
+  "errui_invalid_url_hint": {
+    "message": "Make sure the URL starts with https:// and points to an image.",
+    "description": "Hint for invalid URL"
+  },
+  "errui_blocked_url_title": {
+    "message": "URL blocked for safety",
+    "description": "Title for blocked URL"
+  },
+  "errui_blocked_url_desc": {
+    "message": "Local network or file:// URLs are blocked to prevent SSRF.",
+    "description": "Description for blocked URL"
+  },
+  "errui_blocked_url_hint": {
+    "message": "Use a public https:// image URL.",
+    "description": "Hint for blocked URL"
+  },
+  "errui_fetch_failed_title": {
+    "message": "Could not fetch the image",
+    "description": "Title for fetch failure"
+  },
+  "errui_fetch_failed_desc": {
+    "message": "The image URL did not respond, or the server returned an error. The remote may not allow cross-origin access.",
+    "description": "Description for fetch failure"
+  },
+  "errui_fetch_failed_hint": {
+    "message": "Check the URL, or download the image and drop it here instead.",
+    "description": "Hint for fetch failure"
+  },
+  "errui_cors_blocked_title": {
+    "message": "Blocked by the remote server",
+    "description": "Title for CORS block"
+  },
+  "errui_cors_blocked_desc": {
+    "message": "The remote server does not allow this image to be downloaded.",
+    "description": "Description for CORS block"
+  },
+  "errui_cors_blocked_hint": {
+    "message": "Save the image locally and drop it here.",
+    "description": "Hint for CORS block"
+  },
+  "errui_permission_denied_title": {
+    "message": "Permission denied",
+    "description": "Title for permission denial"
+  },
+  "errui_permission_denied_desc": {
+    "message": "Host permission for this URL was not granted.",
+    "description": "Description for permission denial"
+  },
+  "errui_strip_error_title": {
+    "message": "Failed to strip EXIF",
+    "description": "Title for strip failure"
+  },
+  "errui_strip_error_desc": {
+    "message": "An error occurred while removing metadata.",
+    "description": "Description for strip failure"
+  },
+  "errui_decode_failed_title": {
+    "message": "Failed to decode the image",
+    "description": "Title for decode failure"
+  },
+  "errui_decode_failed_desc": {
+    "message": "The browser could not render this image.",
+    "description": "Description for decode failure"
+  },
+  "errui_resize_failed_title": {
+    "message": "Failed to resize",
+    "description": "Title for resize failure"
+  },
+  "errui_resize_failed_desc": {
+    "message": "An error occurred while resizing the image.",
+    "description": "Description for resize failure"
+  },
+  "errui_encode_failed_title": {
+    "message": "Failed to save the image",
+    "description": "Title for encode failure"
+  },
+  "errui_encode_failed_desc": {
+    "message": "An error occurred while encoding the output.",
+    "description": "Description for encode failure"
+  },
+  "errui_size_target_unreachable_title": {
+    "message": "Could not reach target size",
+    "description": "Title for unreachable size target"
+  },
+  "errui_size_target_unreachable_desc": {
+    "message": "The image was saved, but it is larger than the SNS target size.",
+    "description": "Description for unreachable size target"
+  },
+  "errui_invalid_profile_title": {
+    "message": "Invalid SNS profile",
+    "description": "Title for invalid profile"
+  },
+  "errui_invalid_profile_desc": {
+    "message": "The selected SNS profile is not available.",
+    "description": "Description for invalid profile"
+  },
+  "errui_bridge_error_title": {
+    "message": "Communication error",
+    "description": "Title for bridge error"
+  },
+  "errui_bridge_error_desc": {
+    "message": "Could not communicate with the background service.",
+    "description": "Description for bridge error"
+  },
+  "errui_invalid_response_title": {
+    "message": "Unexpected response",
+    "description": "Title for invalid response"
+  },
+  "errui_invalid_response_desc": {
+    "message": "The background service returned an unexpected response.",
+    "description": "Description for invalid response"
+  },
+  "errui_show_detail": {
+    "message": "Show details",
+    "description": "Toggle for showing detailed error info"
+  },
+  "errui_dismiss": {
+    "message": "Dismiss",
+    "description": "Close button label for the error panel"
+  },
+
+  "summary_filename": {
+    "message": "Filename",
+    "description": "Label for filename in image summary"
+  },
+  "summary_format": {
+    "message": "Format",
+    "description": "Label for format in image summary"
+  },
+  "summary_size": {
+    "message": "Size",
+    "description": "Label for size in image summary"
+  },
+  "summary_dimensions": {
+    "message": "Dimensions",
+    "description": "Label for dimensions in image summary"
+  },
+  "summary_field_count": {
+    "message": "EXIF fields",
+    "description": "Label for the number of EXIF fields"
+  },
+  "summary_high_risk_count": {
+    "message": "High-risk fields",
+    "description": "Label for the number of high-risk fields"
+  },
+
+  "loading_phase_fetching": {
+    "message": "Fetching image…",
+    "description": "Loading phase: downloading image from URL"
+  },
+  "loading_phase_validating": {
+    "message": "Validating image…",
+    "description": "Loading phase: checking format / size"
+  },
+  "loading_phase_parsing": {
+    "message": "Reading EXIF…",
+    "description": "Loading phase: extracting EXIF data"
+  },
+
   "options_title": {
     "message": "Photo EXIF Util — Settings",
     "description": "Options page title"

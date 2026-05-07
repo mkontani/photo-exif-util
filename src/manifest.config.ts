@@ -5,7 +5,7 @@ export default defineManifest({
   name: '__MSG_extName__',
   description: '__MSG_extDescription__',
   default_locale: 'en',
-  version: '0.1.2',
+  version: '0.2.0',
   minimum_chrome_version: '116',
   permissions: ['contextMenus', 'sidePanel', 'storage'],
   // @ts-expect-error @crxjs/vite-plugin の型定義に optional_host_permissions が未反映

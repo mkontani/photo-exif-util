@@ -7,9 +7,11 @@ import { initialInspectState, inspectReducer } from '@/state/inspect-store';
 import type { InspectState } from '@/state/inspect-store';
 import { DropZone } from '@/ui/components/DropZone';
 import { EmptyState } from '@/ui/components/EmptyState';
+import { ErrorPanel } from '@/ui/components/ErrorPanel';
 import { ExifTable } from '@/ui/components/ExifTable';
+import { ImageSummary } from '@/ui/components/ImageSummary';
+import { LoadingIndicator } from '@/ui/components/LoadingIndicator';
 import { OptimizePanel } from '@/ui/components/OptimizePanel';
-import { RiskBadge } from '@/ui/components/RiskBadge';
 import { StripPanel } from '@/ui/components/StripPanel';
 import { Tabs } from '@/ui/components/Tabs';
 import { t } from '@/ui/i18n/t';
@@ -21,6 +23,7 @@ import { extractErrorInfo } from '@/utils/error';
  * 状態管理は inspectReducer を createSignal + dispatch パターンで運用している。
  * タブ切替は createSignal<TabId> で管理し、inspect 完了後に strip/optimize が活性化する。
  */
+import { RotateCcw } from 'lucide-solid';
 import { Show, createSignal, onCleanup, onMount } from 'solid-js';
 
 type TabId = 'inspect' | 'strip' | 'optimize';
@@ -31,9 +34,13 @@ interface PendingIngest {
   readonly ts: number;
 }
 
+/** ローディングフェーズ識別子 (LoadingIndicator が i18n キーに変換する) */
+type LoadingPhase = 'fetching' | 'validating' | 'parsing';
+
 export function App() {
   const [state, setState] = createSignal<InspectState>(initialInspectState);
   const [activeTab, setActiveTab] = createSignal<TabId>('inspect');
+  const [loadingPhase, setLoadingPhase] = createSignal<LoadingPhase>('validating');
 
   function dispatch(action: Parameters<typeof inspectReducer>[1]) {
     setState((s) => inspectReducer(s, action));
@@ -41,6 +48,7 @@ export function App() {
 
   /** File / Blob を受け取って EXIF を解析する共通処理 */
   async function processBlob(blob: Blob, sourceName: string) {
+    setLoadingPhase('validating');
     const validation = await validateFile(blob);
     if (!validation.ok) {
       dispatch({ type: 'INGEST_ERROR', code: validation.code, message: validation.message });
@@ -49,6 +57,7 @@ export function App() {
 
     let summary: ExifSummary;
     try {
+      setLoadingPhase('parsing');
       summary = await parseExif(validation.blob);
     } catch (err: unknown) {
       // parseExif は ExifParseError を reject。extractErrorInfo で安全に展開
@@ -83,6 +92,7 @@ export function App() {
     }
 
     dispatch({ type: 'INGEST_START', source: { kind: 'url', url } });
+    setLoadingPhase('fetching');
 
     // Phase 6: Background SW 経由で URL fetch する (SSRF 対策のため直接 fetch しない)
     try {
@@ -165,14 +175,19 @@ export function App() {
   return (
     <div class="flex h-screen flex-col">
       {/* ヘッダー */}
-      <header class="flex items-center justify-between border-b px-4 py-3">
-        <h1 class="text-base font-bold">Photo EXIF Util</h1>
+      <header class="flex items-center justify-between border-b border-gray-200 px-4 py-3">
+        <div class="flex items-center gap-2">
+          <img src="/icons/icon-32.png" alt="" class="h-5 w-5" aria-hidden="true" />
+          <h1 class="text-base font-bold">Photo EXIF Util</h1>
+        </div>
         <Show when={state().status !== 'idle'}>
           <button
             type="button"
             onClick={handleReset}
-            class="text-xs text-gray-500 underline hover:text-gray-700"
+            class="inline-flex items-center gap-1 rounded px-2 py-1 text-xs text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+            aria-label={t('app_reset', undefined, 'リセット')}
           >
+            <RotateCcw class="h-3 w-3" aria-hidden="true" />
             {t('app_reset', undefined, 'リセット')}
           </button>
         </Show>
@@ -195,43 +210,40 @@ export function App() {
           {/* DropZone: 常に表示 */}
           <DropZone onFiles={handleFiles} onUrl={handleUrl} disabled={isLoading()} />
 
-          {/* ローディング */}
+          {/* ローディング: スピナー + フェーズ */}
           <Show when={isLoading()}>
-            {/* <output> は role="status" を暗黙に持つ (aria-live=polite + aria-atomic=true) */}
-            <output class="flex items-center justify-center py-4 text-sm text-gray-500">
-              {t('app_loading', undefined, '解析中...')}
-            </output>
+            <LoadingIndicator phase={loadingPhase()} />
           </Show>
 
-          {/* エラーバナー */}
+          {/* エラーバナー: 構造化された ErrorPanel */}
           <Show when={state().status === 'error'}>
-            <div
-              class="rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"
-              role="alert"
-            >
-              <strong>{t('app_error_prefix', undefined, 'エラー:')}</strong> {state().errorMessage}
-            </div>
+            {(() => {
+              const detail = state().errorMessage;
+              return (
+                <ErrorPanel
+                  code={state().errorCode ?? 'UNKNOWN'}
+                  {...(detail !== undefined ? { detail } : {})}
+                  onDismiss={handleReset}
+                />
+              );
+            })()}
           </Show>
 
-          {/* 成功: EXIF 表示 */}
-          <Show when={isSuccess() && summary() !== undefined}>
+          {/* 成功: 画像サマリ + EXIF 表示 */}
+          <Show when={isSuccess() && summary() !== undefined && blob() !== undefined}>
             {(_) => {
-              // Show の when が truthy のときのみこのブロックが実行される
               const s = summary() as ExifSummary;
+              const b = blob() as Blob;
+              const src = state().source;
+              const sourceName =
+                src?.kind === 'file' || src?.kind === 'drop' ? src.name : undefined;
               return (
-                <div class="flex flex-col gap-2">
-                  {/* サマリーヘッダー */}
-                  <div class="flex items-center gap-2 text-sm">
-                    <span class="text-gray-600">
-                      {t('app_highest_risk', undefined, '最高リスク:')}
-                    </span>
-                    <RiskBadge level={s.highestRisk} />
-                    <Show when={s.hasGps}>
-                      <span class="rounded bg-orange-100 px-1.5 py-0.5 text-xs font-medium text-orange-800">
-                        {t('app_gps_present', undefined, 'GPS あり')}
-                      </span>
-                    </Show>
-                  </div>
+                <div class="flex flex-col gap-3">
+                  {sourceName !== undefined ? (
+                    <ImageSummary blob={b} summary={s} sourceName={sourceName} />
+                  ) : (
+                    <ImageSummary blob={b} summary={s} />
+                  )}
                   <ExifTable summary={s} />
                 </div>
               );

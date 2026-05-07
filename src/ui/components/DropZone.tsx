@@ -1,8 +1,9 @@
+import { t } from '@/ui/i18n/t';
 /**
  * ドラッグ&ドロップ + file picker + URL input を提供するコンポーネント。
  * ファイルの受け取り口として Side Panel の最上部に配置する。
  */
-import { t } from '@/ui/i18n/t';
+import { Link2, Upload } from 'lucide-solid';
 import { createSignal } from 'solid-js';
 
 interface DropZoneProps {
@@ -67,10 +68,10 @@ export function DropZone(props: DropZoneProps) {
         type="button"
         aria-label={t('dropzone_aria_label', undefined, '画像をドロップまたはクリックして選択')}
         aria-disabled={props.disabled}
-        class={`flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed px-4 py-8 text-sm transition-colors ${
+        class={`flex w-full cursor-pointer flex-col items-center justify-center gap-1.5 rounded-lg border-2 border-dashed px-4 py-6 text-sm transition-colors ${
           isDragging()
-            ? 'border-blue-500 bg-blue-50'
-            : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'
+            ? 'scale-[1.01] border-blue-500 bg-blue-50 text-blue-700'
+            : 'border-gray-300 text-gray-600 hover:border-blue-400 hover:bg-blue-50/30'
         } ${props.disabled ? 'cursor-not-allowed opacity-50' : ''}`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
@@ -80,12 +81,14 @@ export function DropZone(props: DropZoneProps) {
         onClick={handleClick}
         disabled={props.disabled}
       >
-        <p class="text-gray-500">
+        <Upload
+          class={`h-6 w-6 ${isDragging() ? 'text-blue-500' : 'text-gray-400'}`}
+          aria-hidden="true"
+        />
+        <p class="font-medium">
           {t('dropzone_hint', undefined, '画像をドロップ または クリックして選択')}
         </p>
-        <p class="mt-1 text-xs text-gray-400">
-          {t('dropzone_formats', undefined, 'JPEG / PNG / WebP')}
-        </p>
+        <p class="text-xs text-gray-400">{t('dropzone_formats', undefined, 'JPEG / PNG / WebP')}</p>
       </button>
 
       {/* 非表示の file input */}
@@ -103,7 +106,8 @@ export function DropZone(props: DropZoneProps) {
 
       {/* URL 入力 */}
       <div class="flex flex-col gap-1">
-        <label for="dropzone-url-input" class="text-xs text-gray-500">
+        <label for="dropzone-url-input" class="flex items-center gap-1 text-xs text-gray-500">
+          <Link2 class="h-3 w-3" aria-hidden="true" />
           {t('dropzone_url_label', undefined, 'URL から取り込む')}
         </label>
         <input
