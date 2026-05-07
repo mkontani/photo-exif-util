@@ -21,9 +21,15 @@ import { extractErrorInfo } from '@/utils/error';
  * 状態管理は inspectReducer を createSignal + dispatch パターンで運用している。
  * タブ切替は createSignal<TabId> で管理し、inspect 完了後に strip/optimize が活性化する。
  */
-import { Show, createSignal } from 'solid-js';
+import { Show, createSignal, onCleanup, onMount } from 'solid-js';
 
 type TabId = 'inspect' | 'strip' | 'optimize';
+
+/** chrome.storage.session に書き込まれる pending ingest の形式 */
+interface PendingIngest {
+  readonly srcUrl: string;
+  readonly ts: number;
+}
 
 export function App() {
   const [state, setState] = createSignal<InspectState>(initialInspectState);
@@ -108,6 +114,53 @@ export function App() {
     if ((tabId === 'strip' || tabId === 'optimize') && !isSuccess()) return;
     setActiveTab(tabId);
   }
+
+  /**
+   * 右クリック「Photo EXIF Util で開く」経由の pending ingest を取得して処理する。
+   * Background SW が chrome.storage.session.set({ pendingIngest }) で渡してくる。
+   */
+  async function consumePendingIngest(value: unknown): Promise<void> {
+    if (
+      value === null ||
+      typeof value !== 'object' ||
+      !('srcUrl' in value) ||
+      typeof (value as PendingIngest).srcUrl !== 'string'
+    ) {
+      return;
+    }
+    const srcUrl = (value as PendingIngest).srcUrl;
+    // 一度処理したら storage から消す (リロードでの二重起動防止)
+    try {
+      await chrome.storage.session.remove('pendingIngest');
+    } catch {
+      // 失敗しても処理は続行する
+    }
+    await handleUrl(srcUrl);
+  }
+
+  onMount(() => {
+    if (typeof chrome === 'undefined' || !chrome.storage?.session) return;
+
+    // 起動時の pending チェック (sidePanel.open より前に context-menu が書き込んだケース)
+    chrome.storage.session
+      .get('pendingIngest')
+      .then((result) => consumePendingIngest(result.pendingIngest))
+      .catch(() => {
+        /* storage 取得失敗時は無視 */
+      });
+
+    // Side Panel が既に開いている状態で context-menu がクリックされた場合に受信
+    const onChanged = (
+      changes: { [key: string]: chrome.storage.StorageChange },
+      areaName: string,
+    ) => {
+      if (areaName !== 'session') return;
+      if (changes.pendingIngest?.newValue === undefined) return;
+      consumePendingIngest(changes.pendingIngest.newValue);
+    };
+    chrome.storage.onChanged.addListener(onChanged);
+    onCleanup(() => chrome.storage.onChanged.removeListener(onChanged));
+  });
 
   return (
     <div class="flex h-screen flex-col">
