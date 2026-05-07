@@ -48,6 +48,9 @@ export function App() {
 
   /** File / Blob を受け取って EXIF を解析する共通処理 */
   async function processBlob(blob: Blob, sourceName: string) {
+    // 解析開始前に blob を state に確定させ、UI でサムネイル表示できるようにする
+    dispatch({ type: 'BLOB_LOADED', blob, source: { kind: 'file', name: sourceName } });
+
     setLoadingPhase('validating');
     const validation = await validateFile(blob);
     if (!validation.ok) {
@@ -209,6 +212,25 @@ export function App() {
         <Show when={activeTab() === 'inspect'}>
           {/* DropZone: 常に表示 */}
           <DropZone onFiles={handleFiles} onUrl={handleUrl} disabled={isLoading()} />
+
+          {/*
+           * loading / error 中も「現在処理対象の画像」をサムネイルで表示する。
+           * これにより「どの画像が指定されているのか」がユーザーに即座に伝わる。
+           * 成功状態は次の Show block (詳細サマリ) で別途表示するためここでは除外。
+           */}
+          <Show when={!isSuccess() && blob() !== undefined}>
+            {(_) => {
+              const b = blob() as Blob;
+              const src = state().source;
+              const sourceName =
+                src?.kind === 'file' || src?.kind === 'drop' ? src.name : undefined;
+              return sourceName !== undefined ? (
+                <ImageSummary blob={b} sourceName={sourceName} compact />
+              ) : (
+                <ImageSummary blob={b} compact />
+              );
+            }}
+          </Show>
 
           {/* ローディング: スピナー + フェーズ */}
           <Show when={isLoading()}>

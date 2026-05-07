@@ -14,9 +14,15 @@ import { Show, createMemo, createSignal, onCleanup, onMount } from 'solid-js';
 
 interface ImageSummaryProps {
   readonly blob: Blob;
-  readonly summary: ExifSummary;
+  /**
+   * EXIF 解析結果。loading 中 / エラー時は undefined になり、
+   * その場合はサムネイル + 基本ファイル情報のみ表示する。
+   */
+  readonly summary?: ExifSummary;
   /** ファイル名 (file/drop 取り込み時のみ提供される) */
   readonly sourceName?: string;
+  /** loading / error 時に表示する小さめのコンパクト版モード */
+  readonly compact?: boolean;
 }
 
 /** 画像寸法を Image 経由で取得する (decode の薄いラッパ、テストでは jsdom 不可なので実機のみ動作) */
@@ -48,26 +54,31 @@ export function ImageSummary(props: ImageSummaryProps) {
     probeDimensions(objectUrl()).then(setDimensions);
   });
 
-  // 高リスクフィールド数を計算
-  const highRiskCount = createMemo(
-    () => props.summary.fields.filter((f) => f.risk === 'high').length,
+  // 高リスクフィールド数を計算 (summary がある場合のみ意味がある)
+  const highRiskCount = createMemo(() =>
+    props.summary ? props.summary.fields.filter((f) => f.risk === 'high').length : 0,
   );
 
-  // フォーマットを大文字表記
-  const formatLabel = createMemo(() => props.summary.format.toUpperCase());
+  // フォーマットを大文字表記 (summary 未確定なら "—")
+  const formatLabel = createMemo(() => (props.summary ? props.summary.format.toUpperCase() : '—'));
+
+  // compact モード: loading / error 中のサムネイル表示用 (リスク情報なし、薄いボーダー)
+  const containerClass = () =>
+    props.compact
+      ? 'flex flex-col gap-2 rounded-lg border border-gray-200 bg-gray-50 p-2'
+      : 'flex flex-col gap-3 rounded-lg border border-gray-200 bg-white p-3';
+
+  const thumbSizeClass = () => (props.compact ? 'h-14 w-14' : 'h-20 w-20');
 
   return (
-    <section
-      class="flex flex-col gap-3 rounded-lg border border-gray-200 bg-white p-3"
-      aria-label="画像サマリー"
-    >
+    <section class={containerClass()} aria-label="画像サマリー">
       <div class="flex gap-3">
         {/* サムネイル */}
         <div class="flex-shrink-0">
           <img
             src={objectUrl()}
             alt={props.sourceName ?? 'preview'}
-            class="h-20 w-20 rounded border border-gray-200 object-cover"
+            class={`${thumbSizeClass()} rounded border border-gray-200 object-cover`}
           />
         </div>
 
@@ -79,10 +90,12 @@ export function ImageSummary(props: ImageSummaryProps) {
               <dd class="truncate font-mono">{props.sourceName}</dd>
             </div>
           </Show>
-          <div class="flex gap-1">
-            <dt class="text-gray-500">{t('summary_format', undefined, '形式')}:</dt>
-            <dd class="font-mono">{formatLabel()}</dd>
-          </div>
+          <Show when={props.summary}>
+            <div class="flex gap-1">
+              <dt class="text-gray-500">{t('summary_format', undefined, '形式')}:</dt>
+              <dd class="font-mono">{formatLabel()}</dd>
+            </div>
+          </Show>
           <div class="flex gap-1">
             <dt class="text-gray-500">{t('summary_size', undefined, 'サイズ')}:</dt>
             <dd class="font-mono">{formatBytes(props.blob.size)}</dd>
@@ -93,32 +106,40 @@ export function ImageSummary(props: ImageSummaryProps) {
               <dd class="font-mono">{formatDimensions(dimensions())}</dd>
             </div>
           </Show>
-          <div class="flex gap-1">
-            <dt class="text-gray-500">
-              {t('summary_field_count', undefined, 'EXIF フィールド数')}:
-            </dt>
-            <dd class="font-mono">{props.summary.fields.length}</dd>
-          </div>
+          <Show when={props.summary}>
+            {(s) => (
+              <div class="flex gap-1">
+                <dt class="text-gray-500">
+                  {t('summary_field_count', undefined, 'EXIF フィールド数')}:
+                </dt>
+                <dd class="font-mono">{s().fields.length}</dd>
+              </div>
+            )}
+          </Show>
         </dl>
       </div>
 
-      {/* リスク表示 */}
-      <div class="flex flex-wrap items-center gap-2 text-xs">
-        <span class="text-gray-600">{t('app_highest_risk', undefined, '最高リスク:')}</span>
-        <RiskBadge level={props.summary.highestRisk} />
-        <Show when={props.summary.hasGps}>
-          <span class="inline-flex items-center gap-1 rounded bg-orange-100 px-1.5 py-0.5 font-medium text-orange-800">
-            <MapPin class="h-3 w-3" aria-hidden="true" />
-            {t('app_gps_present', undefined, 'GPS あり')}
-          </span>
-        </Show>
-        <Show when={highRiskCount() > 0}>
-          <span class="inline-flex items-center gap-1 rounded bg-red-100 px-1.5 py-0.5 font-medium text-red-800">
-            <ShieldAlert class="h-3 w-3" aria-hidden="true" />
-            {t('summary_high_risk_count', undefined, '高リスクフィールド')}: {highRiskCount()}
-          </span>
-        </Show>
-      </div>
+      {/* リスク表示 (summary 確定時のみ、compact 表示でない場合) */}
+      <Show when={props.summary !== undefined && !props.compact ? props.summary : undefined}>
+        {(s) => (
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <span class="text-gray-600">{t('app_highest_risk', undefined, '最高リスク:')}</span>
+            <RiskBadge level={s().highestRisk} />
+            <Show when={s().hasGps}>
+              <span class="inline-flex items-center gap-1 rounded bg-orange-100 px-1.5 py-0.5 font-medium text-orange-800">
+                <MapPin class="h-3 w-3" aria-hidden="true" />
+                {t('app_gps_present', undefined, 'GPS あり')}
+              </span>
+            </Show>
+            <Show when={highRiskCount() > 0}>
+              <span class="inline-flex items-center gap-1 rounded bg-red-100 px-1.5 py-0.5 font-medium text-red-800">
+                <ShieldAlert class="h-3 w-3" aria-hidden="true" />
+                {t('summary_high_risk_count', undefined, '高リスクフィールド')}: {highRiskCount()}
+              </span>
+            </Show>
+          </div>
+        )}
+      </Show>
     </section>
   );
 }
