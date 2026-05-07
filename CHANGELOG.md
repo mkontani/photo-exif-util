@@ -10,6 +10,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.2.0] - 2026-05-08
 
 ### Changed
+- **画像サマリを全タブ共通領域に常時表示**: 「いまどの画像を扱っているか」が
+  inspect / strip / optimize どのタブを見ていても分かるよう、`<main>` 最上部に
+  `ImageSummary` を配置。inspect タブ + 成功状態のときだけフルサマリ
+  (リスク情報含む)、それ以外はコンパクト表示。
+- **ダークモード対応強化**: Tailwind v4 の `@custom-variant dark` を `globals.css`
+  に定義し、`data-theme="dark"` および `prefers-color-scheme: dark` の双方で
+  `dark:` バリアントが適用されるように。`ImageSummary` / ヘッダー / タブ間
+  プレースホルダの白背景・薄文字色を dark バリアントの slate 系トークンに切替し、
+  「白背景に白文字で見えない」問題を解消。
+- **DropZone は idle/error 時のみ表示**: success 時は ImageSummary が代替で
+  画像情報を見せるため、DropZone の重複表示を抑制 (リセット押下で戻る)。
+
+### Changed (2026-05-08 earlier in the day)
 - **エラー表示を全面的に改善**: `code: 内部メッセージ` の生表示から、原因 / 対処方法を
   3 点セットで表示する `ErrorPanel` に置き換え。`getErrorDisplay(code)` 純粋関数で
   17 種類のエラーコードに対し severity (error/warning/info) + タイトル + 説明 +

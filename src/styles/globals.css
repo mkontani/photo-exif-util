@@ -1,5 +1,22 @@
 @import "tailwindcss";
 
+/*
+ * dark バリアント定義 (Tailwind v4)。
+ * 1) data-theme="dark" 配下のすべての要素に適用 (Options で明示選択時)
+ * 2) prefers-color-scheme: dark かつ data-theme="light" でない場合 (theme=auto + system dark)
+ * これにより `dark:bg-slate-800` のようなクラスが両条件で動作する。
+ */
+@custom-variant dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]) *, :root:not([data-theme="light"])) {
+      @slot;
+    }
+  }
+}
+
 /* ライトモードのベーストークン */
 @theme {
   --color-bg: #ffffff;

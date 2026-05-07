@@ -177,8 +177,8 @@ export function App() {
 
   return (
     <div class="flex h-screen flex-col">
-      {/* ヘッダー */}
-      <header class="flex items-center justify-between border-b border-gray-200 px-4 py-3">
+      {/* ヘッダー (dark バリアントで境界線・テキスト色を切替) */}
+      <header class="flex items-center justify-between border-b border-gray-200 px-4 py-3 dark:border-slate-700">
         <div class="flex items-center gap-2">
           <img src="/icons/icon-32.png" alt="" class="h-5 w-5" aria-hidden="true" />
           <h1 class="text-base font-bold">Photo EXIF Util</h1>
@@ -187,7 +187,7 @@ export function App() {
           <button
             type="button"
             onClick={handleReset}
-            class="inline-flex items-center gap-1 rounded px-2 py-1 text-xs text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+            class="inline-flex items-center gap-1 rounded px-2 py-1 text-xs text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-100"
             aria-label={t('app_reset', undefined, 'リセット')}
           >
             <RotateCcw class="h-3 w-3" aria-hidden="true" />
@@ -208,28 +208,37 @@ export function App() {
       />
 
       <main class="flex flex-1 flex-col gap-4 overflow-auto p-4">
+        {/*
+         * 全タブ共通: 取り込み済み画像のサムネイル + 基本情報を最上部に常時表示する。
+         * - inspect 成功 + アクティブタブが inspect: フル表示 (リスク情報含む)
+         * - それ以外 (loading / error / strip / optimize タブ): compact 表示
+         * これによりどのタブを見ていても「いまどの画像を扱っているか」が常に分かる。
+         */}
+        <Show when={blob() !== undefined}>
+          {(_) => {
+            const b = blob() as Blob;
+            const src = state().source;
+            const sourceName = src?.kind === 'file' || src?.kind === 'drop' ? src.name : undefined;
+            // 詳細サマリは「成功状態 かつ inspect タブ」のときのみ。それ以外はコンパクト
+            const useFull = isSuccess() && activeTab() === 'inspect';
+            const s = useFull ? summary() : undefined;
+            const baseProps =
+              sourceName !== undefined
+                ? { blob: b, sourceName, compact: !useFull }
+                : { blob: b, compact: !useFull };
+            return s !== undefined ? (
+              <ImageSummary {...baseProps} summary={s} />
+            ) : (
+              <ImageSummary {...baseProps} />
+            );
+          }}
+        </Show>
+
         {/* inspect タブ */}
         <Show when={activeTab() === 'inspect'}>
-          {/* DropZone: 常に表示 */}
-          <DropZone onFiles={handleFiles} onUrl={handleUrl} disabled={isLoading()} />
-
-          {/*
-           * loading / error 中も「現在処理対象の画像」をサムネイルで表示する。
-           * これにより「どの画像が指定されているのか」がユーザーに即座に伝わる。
-           * 成功状態は次の Show block (詳細サマリ) で別途表示するためここでは除外。
-           */}
-          <Show when={!isSuccess() && blob() !== undefined}>
-            {(_) => {
-              const b = blob() as Blob;
-              const src = state().source;
-              const sourceName =
-                src?.kind === 'file' || src?.kind === 'drop' ? src.name : undefined;
-              return sourceName !== undefined ? (
-                <ImageSummary blob={b} sourceName={sourceName} compact />
-              ) : (
-                <ImageSummary blob={b} compact />
-              );
-            }}
+          {/* DropZone は idle / error 状態で表示 (success 時は ImageSummary が代替表示する) */}
+          <Show when={!isSuccess()}>
+            <DropZone onFiles={handleFiles} onUrl={handleUrl} disabled={isLoading()} />
           </Show>
 
           {/* ローディング: スピナー + フェーズ */}
@@ -251,25 +260,9 @@ export function App() {
             })()}
           </Show>
 
-          {/* 成功: 画像サマリ + EXIF 表示 */}
-          <Show when={isSuccess() && summary() !== undefined && blob() !== undefined}>
-            {(_) => {
-              const s = summary() as ExifSummary;
-              const b = blob() as Blob;
-              const src = state().source;
-              const sourceName =
-                src?.kind === 'file' || src?.kind === 'drop' ? src.name : undefined;
-              return (
-                <div class="flex flex-col gap-3">
-                  {sourceName !== undefined ? (
-                    <ImageSummary blob={b} summary={s} sourceName={sourceName} />
-                  ) : (
-                    <ImageSummary blob={b} summary={s} />
-                  )}
-                  <ExifTable summary={s} />
-                </div>
-              );
-            }}
+          {/* 成功: EXIF テーブル (画像サマリは上部の共通領域で表示済み) */}
+          <Show when={isSuccess() && summary() !== undefined}>
+            {(_) => <ExifTable summary={summary() as ExifSummary} />}
           </Show>
 
           {/* 初期状態: EmptyState */}
@@ -283,7 +276,7 @@ export function App() {
           <Show
             when={isSuccess() && blob() !== undefined && summary() !== undefined}
             fallback={
-              <div class="py-8 text-center text-sm text-gray-400">
+              <div class="py-8 text-center text-sm text-gray-400 dark:text-slate-500">
                 {t('app_load_image_first', undefined, 'まず「検査」タブで画像を読み込んでください')}
               </div>
             }
@@ -297,7 +290,7 @@ export function App() {
           <Show
             when={isSuccess() && blob() !== undefined}
             fallback={
-              <div class="py-8 text-center text-sm text-gray-400">
+              <div class="py-8 text-center text-sm text-gray-400 dark:text-slate-500">
                 {t('app_load_image_first', undefined, 'まず「検査」タブで画像を読み込んでください')}
               </div>
             }
