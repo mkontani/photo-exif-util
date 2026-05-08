@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-05-08
+
+### Fixed
+- 右クリック「Photo EXIF Util で開く」が時間経過後に反応しなくなり、拡張を
+  reload しないと復旧しない問題を修正。原因は MV3 Service Worker のライフ
+  サイクル制約で、`chrome.contextMenus.onClicked` リスナーを
+  `chrome.runtime.onInstalled` の中で `addListener` していたため、SW がアイドル
+  停止 → イベントで再起動した際にリスナーが復活せずクリックが捨てられていた。
+  リスナー登録 (`registerContextMenuListener`) をトップレベルへ移動し、
+  メニュー項目作成 (`createContextMenuEntry`) のみ `onInstalled` 内で 1 回
+  実行する形に分離。SW 再起動時もリスナーが必ず再登録されるようになった。
+
+### Added
+- `tests/unit/background/context-menu.test.ts`: SW ライフサイクル耐性の
+  リグレッションテスト 9 件 (リスナー即時登録、create と addListener の責務
+  分離、URL バリデーション、user gesture 維持のための呼び出し順序検証)。
+
 ## [0.2.1] - 2026-05-08
 
 ### Changed

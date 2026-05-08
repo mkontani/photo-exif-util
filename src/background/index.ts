@@ -7,7 +7,7 @@ import { isExtensionSender, messageSchema } from '@/messaging/protocol';
  * chrome.* 依存のため coverage exclude 対象。
  */
 import { arrayBufferToBase64 } from '@/utils/base64';
-import { registerContextMenu } from './context-menu';
+import { createContextMenuEntry, registerContextMenuListener } from './context-menu';
 import { fetchImageUrl } from './url-fetcher';
 
 /**
@@ -43,8 +43,13 @@ async function fetchAndEncode(
   return { ok: true, payload: { dataBase64, mimeType, sizeBytes: blob.size } };
 }
 
+// 重要: addListener はトップレベルで同期的に呼ばないと、SW がアイドル停止後に
+// イベントで再起動した際にリスナーが復活せずイベントが失われる (MV3 制約)。
+// onInstalled は再起動時に再発火しないため、その中で addListener してはならない。
+registerContextMenuListener();
+
 chrome.runtime.onInstalled.addListener(() => {
-  registerContextMenu();
+  createContextMenuEntry();
 });
 
 // Ctrl+Shift+E (mac: Cmd+Shift+E) でサイドパネルを開くコマンド
