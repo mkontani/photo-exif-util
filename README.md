@@ -1,7 +1,13 @@
-# Photo EXIF Util
+<p align="center">
+  <img src="./public/icons/icon-128.png" alt="Photo EXIF Util icon" width="128" height="128" />
+</p>
 
-> Chrome extension to view, analyze, and strip EXIF metadata from photos.
-> **Fully client-side** — no data ever leaves your device.
+<h1 align="center">Photo EXIF Util</h1>
+
+<p align="center">
+  Chrome extension to view, analyze, and strip EXIF metadata from photos.<br />
+  <strong>Fully client-side</strong> — no data ever leaves your device.
+</p>
 
 ## Features
 
@@ -11,6 +17,19 @@
 - 📐 Optimize images for **11 SNS profiles** (X, Instagram, LINE, Bluesky, …)
 - 🌗 Light / Dark / system-preference theme
 - 🇯🇵 🇺🇸 i18n: Japanese / English
+
+## Screenshots
+
+<table>
+  <tr>
+    <td width="50%"><img src="./assets/promos/screenshot01.png" alt="Inspect tab — EXIF fields with privacy-risk badges" /></td>
+    <td width="50%"><img src="./assets/promos/screenshot02.png" alt="Strip tab — selective EXIF category removal" /></td>
+  </tr>
+  <tr>
+    <td><img src="./assets/promos/screenshot03.png" alt="Optimize tab — SNS profile resize and re-encode" /></td>
+    <td><img src="./assets/promos/screenshot04.png" alt="Result with download" /></td>
+  </tr>
+</table>
 
 ## Install
 
@@ -70,7 +89,7 @@ work without this manual setup automatically.
 ## Privacy
 
 This extension **never sends image data outside your device**. All processing
-happens locally in the browser. See [PRIVACY.md](./PRIVACY.md) for details.
+happens locally in the browser. See [PRIVACY.md](./docs/PRIVACY.md) for details.
 
 ## Development & Contributing
 

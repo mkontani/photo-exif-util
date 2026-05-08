@@ -104,7 +104,7 @@ URL を扱う全経路で多層検証:
 
 - `public/icons/icon-{16,32,48,128}.png` は本番アイコン (commit 済)。`pnpm gen:icons` はプレースホルダ (青円+P) を生成するスクリプトで、既存ファイルは skip するので通常は安全。差し替え時は `--force` または該当 PNG を一旦削除する
 - `manifest.config.ts` の `optional_host_permissions: ['<all_urls>']` は審査で justification 必須 (URL 入力経路、Background SW のみで使用、コンテンツスクリプトから直接アクセスしない旨を説明)
-- `PRIVACY.md` を GitHub Pages 等で公開してプライバシーポリシー URL として登録
+- `docs/PRIVACY.md` は GitHub Pages (source: `main` / `/docs`) で `https://mkontani.github.io/photo-exif-util/PRIVACY` に公開済み。Web Store の Privacy Policy URL として登録する
 - 詳細は `README.md` の "Submit to Chrome Web Store" 参照
 
 ## Repository conventions
