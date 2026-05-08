@@ -6,7 +6,13 @@
  * 生成されるアイコンは単色の正方形 PNG (プレースホルダー)。
  * 本番リリース前に差し替えること。
  *
- * 使い方: pnpm gen:icons
+ * 使い方:
+ *   pnpm gen:icons          既存ファイルが無いサイズのみ生成 (デフォルトで非破壊)
+ *   pnpm gen:icons --force  本番アイコンも含めて全サイズ強制再生成
+ *
+ * 本スクリプトは破壊的なので、`pnpm release` からは外している。
+ * 過去のリリースで本番アイコンがプレースホルダで上書きされた経緯があるため、
+ * 既定挙動は skip-if-exists とし、`--force` でのみ上書きを許す。
  */
 
 import { existsSync } from 'node:fs';
@@ -379,21 +385,48 @@ export function generateCirclePng(size: number): Uint8Array {
   return pixelsToPng(pixels, size);
 }
 
+/**
+ * 既存アイコンを上書きすべきかを判定する純粋関数。
+ *
+ *  - 存在しないなら常に書く
+ *  - 存在する場合は force=true のときだけ書く
+ *
+ * 引数で `exists` を渡すことで fs を分離してテスト可能にする。
+ */
+export function shouldWriteIcon(exists: boolean, force: boolean): boolean {
+  return !exists || force;
+}
+
+/** `--force` / `-f` フラグの有無を argv から検出する純粋関数。 */
+export function parseForceFlag(argv: readonly string[]): boolean {
+  return argv.includes('--force') || argv.includes('-f');
+}
+
 async function main(): Promise<void> {
   if (!existsSync(OUTPUT_DIR)) {
     await mkdir(OUTPUT_DIR, { recursive: true });
   }
 
+  const force = parseForceFlag(process.argv.slice(2));
+
   // Photo EXIF Util アイコン: 円形背景 + 文字 P (Approach 1)
   const sizes = [16, 32, 48, 128] as const;
+  let written = 0;
+  let skipped = 0;
   for (const size of sizes) {
-    const png = generateCirclePng(size);
     const outPath = join(OUTPUT_DIR, `icon-${size}.png`);
+    if (!shouldWriteIcon(existsSync(outPath), force)) {
+      console.log(`Skipped ${outPath} (already exists; pass --force to overwrite)`);
+      skipped++;
+      continue;
+    }
+    const png = generateCirclePng(size);
     await writeFile(outPath, png);
     console.log(`Wrote ${outPath} (${png.length} bytes)`);
+    written++;
   }
 
-  console.log('Icons generated successfully.');
+  console.log(`Icons: ${written} written, ${skipped} skipped.`);
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

@@ -3,7 +3,12 @@
  * generateSolidPng / generateCirclePng の純粋関数としての動作を検証する。
  */
 import { describe, expect, it } from 'vitest';
-import { generateCirclePng, generateSolidPng } from '../../../scripts/generate-icons';
+import {
+  generateCirclePng,
+  generateSolidPng,
+  parseForceFlag,
+  shouldWriteIcon,
+} from '../../../scripts/generate-icons';
 
 const PNG_SIGNATURE = new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10]);
 
@@ -171,5 +176,40 @@ describe('generateCirclePng', () => {
       }
     }
     expect(found).toBe(true);
+  });
+});
+
+describe('shouldWriteIcon', () => {
+  it('ファイルが存在しないなら force に関係なく true', () => {
+    expect(shouldWriteIcon(false, false)).toBe(true);
+    expect(shouldWriteIcon(false, true)).toBe(true);
+  });
+
+  it('ファイルが存在するなら force=false で false (上書きしない)', () => {
+    expect(shouldWriteIcon(true, false)).toBe(false);
+  });
+
+  it('ファイルが存在するなら force=true で true (上書きする)', () => {
+    expect(shouldWriteIcon(true, true)).toBe(true);
+  });
+});
+
+describe('parseForceFlag', () => {
+  it('--force があれば true', () => {
+    expect(parseForceFlag(['--force'])).toBe(true);
+    expect(parseForceFlag(['foo', '--force', 'bar'])).toBe(true);
+  });
+
+  it('-f があれば true', () => {
+    expect(parseForceFlag(['-f'])).toBe(true);
+  });
+
+  it('どちらも無ければ false', () => {
+    expect(parseForceFlag([])).toBe(false);
+    expect(parseForceFlag(['--other'])).toBe(false);
+  });
+
+  it('--force-something のような部分一致は拾わない', () => {
+    expect(parseForceFlag(['--force-other'])).toBe(false);
   });
 });

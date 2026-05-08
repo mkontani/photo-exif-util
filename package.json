@@ -21,7 +21,7 @@
     "test:e2e": "playwright test",
     "pack:zip": "tsx scripts/pack-zip.ts",
     "gen:icons": "tsx scripts/generate-icons.ts",
-    "release": "pnpm gen:icons && pnpm build && pnpm pack:zip",
+    "release": "pnpm build && pnpm pack:zip",
     "prepare": "lefthook install"
   },
   "dependencies": {
