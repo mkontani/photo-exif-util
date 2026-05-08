@@ -430,5 +430,170 @@
   "qualityslider_aria": {
     "message": "画像品質",
     "description": "品質スライダーのアクセシブルラベル"
+  },
+
+  "summary_aria_label": {
+    "message": "画像サマリー",
+    "description": "画像サマリーセクションのアクセシブルラベル"
+  },
+
+  "popup_open_sidepanel": {
+    "message": "サイドパネルを開く",
+    "description": "ポップアップでサイドパネルを開くボタンのラベル"
+  },
+  "popup_hint": {
+    "message": "EXIF の確認・削除はサイドパネルで行います。",
+    "description": "ポップアップに表示する補足説明"
+  },
+
+  "exiftable_search_aria": {
+    "message": "EXIF フィールドを検索",
+    "description": "EXIF 検索ボックスのアクセシブルラベル"
+  },
+  "exiftable_search_placeholder": {
+    "message": "フィールド名で検索...",
+    "description": "EXIF 検索ボックスのプレースホルダー"
+  },
+  "exiftable_filter_legend": {
+    "message": "カテゴリ絞り込み",
+    "description": "カテゴリフィルタの legend"
+  },
+  "exiftable_no_data": {
+    "message": "EXIF データなし",
+    "description": "EXIF が空のときの表示"
+  },
+  "exiftable_no_match": {
+    "message": "該当なし",
+    "description": "検索/フィルタで結果が 0 件のときの表示"
+  },
+  "exiftable_header_key": {
+    "message": "キー",
+    "description": "EXIF テーブルヘッダ: キー"
+  },
+  "exiftable_header_value": {
+    "message": "値",
+    "description": "EXIF テーブルヘッダ: 値"
+  },
+  "exiftable_header_category": {
+    "message": "カテゴリ",
+    "description": "EXIF テーブルヘッダ: カテゴリ"
+  },
+  "exiftable_header_risk": {
+    "message": "リスク",
+    "description": "EXIF テーブルヘッダ: リスク"
+  },
+
+  "strip_category_gps": {
+    "message": "GPS",
+    "description": "削除カテゴリ: GPS"
+  },
+  "strip_category_device": {
+    "message": "デバイス",
+    "description": "削除カテゴリ: デバイス (カメラ本体)"
+  },
+  "strip_category_lens": {
+    "message": "レンズ",
+    "description": "削除カテゴリ: レンズ"
+  },
+  "strip_category_capture": {
+    "message": "撮影設定",
+    "description": "削除カテゴリ: 撮影設定 (ISO/シャッター等)"
+  },
+  "strip_category_datetime": {
+    "message": "日時",
+    "description": "削除カテゴリ: タイムスタンプ"
+  },
+  "strip_category_software": {
+    "message": "ソフトウェア",
+    "description": "削除カテゴリ: ソフトウェア / 加工ツール"
+  },
+  "strip_category_orientation": {
+    "message": "向き",
+    "description": "削除カテゴリ: 画像の向き"
+  },
+  "strip_label_categories": {
+    "message": "削除カテゴリ",
+    "description": "削除カテゴリチェックボックス群の見出し"
+  },
+  "strip_button_select_all": {
+    "message": "全選択",
+    "description": "ボタン: カテゴリを全選択"
+  },
+  "strip_button_select_none": {
+    "message": "全解除",
+    "description": "ボタン: カテゴリを全解除"
+  },
+  "strip_label_keep_icc": {
+    "message": "ICC プロファイルを保持する",
+    "description": "ICC カラープロファイルを保持するトグル"
+  },
+  "strip_button_run": {
+    "message": "EXIF を削除",
+    "description": "削除パネル実行ボタン"
+  },
+  "strip_button_running": {
+    "message": "削除中...",
+    "description": "削除パネル実行ボタン (実行中)"
+  },
+  "strip_button_download": {
+    "message": "ダウンロード",
+    "description": "削除パネルのダウンロードボタン"
+  },
+  "strip_removed_count": {
+    "message": "削除フィールド数: $COUNT$ 件",
+    "description": "削除結果: 削除した EXIF キー数",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "12"
+      }
+    }
+  },
+  "strip_error_default": {
+    "message": "EXIF 削除に失敗しました",
+    "description": "削除失敗時のデフォルトエラーメッセージ"
+  },
+
+  "optimize_label_profile": {
+    "message": "SNS プロファイル",
+    "description": "最適化パネル: SNS プロファイル選択ラベル"
+  },
+  "optimize_label_quality": {
+    "message": "品質",
+    "description": "最適化パネル: 品質スライダーラベル / 結果行ラベル"
+  },
+  "optimize_quality_reset": {
+    "message": "リセット",
+    "description": "最適化パネル: カスタム品質をリセットするボタン"
+  },
+  "optimize_button_run": {
+    "message": "最適化して書き出し",
+    "description": "最適化パネル実行ボタン"
+  },
+  "optimize_button_running": {
+    "message": "最適化中...",
+    "description": "最適化パネル実行ボタン (実行中)"
+  },
+  "optimize_button_download": {
+    "message": "ダウンロード",
+    "description": "最適化パネルのダウンロードボタン"
+  },
+  "optimize_size_target_warning": {
+    "message": "目標サイズに収まりませんでした",
+    "description": "最適化結果が SNS 目標サイズを超えているときの警告"
+  },
+  "optimize_error_profile_not_found": {
+    "message": "プロファイル \"$PROFILE_ID$\" が見つかりません",
+    "description": "選択された SNS プロファイル id が見つからないときのエラー",
+    "placeholders": {
+      "profile_id": {
+        "content": "$1",
+        "example": "instagram_square"
+      }
+    }
+  },
+  "optimize_error_default": {
+    "message": "最適化処理に失敗しました",
+    "description": "最適化失敗時のデフォルトエラーメッセージ"
   }
 }

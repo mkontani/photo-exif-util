@@ -8,6 +8,7 @@
 import { SNS_PROFILES, getProfileById } from '@/core/sns/profiles';
 import type { SnsApplyResult } from '@/core/sns/types';
 import { effectiveProfile, initialOptimizeState, optimizeReducer } from '@/state/optimize-store';
+import { t } from '@/ui/i18n/t';
 import { downloadBlob } from '@/utils/download';
 import { safeFilename } from '@/utils/filename';
 import { For, Show, createSignal } from 'solid-js';
@@ -40,7 +41,11 @@ export function OptimizePanel(props: OptimizePanelProps) {
       dispatch({
         type: 'OPTIMIZE_ERROR',
         code: 'INVALID_PROFILE',
-        message: `プロファイル "${currentState.selectedProfileId}" が見つかりません`,
+        message: t(
+          'optimize_error_profile_not_found',
+          [currentState.selectedProfileId],
+          `プロファイル "${currentState.selectedProfileId}" が見つかりません`,
+        ),
       });
       return;
     }
@@ -65,7 +70,8 @@ export function OptimizePanel(props: OptimizePanelProps) {
       dispatch({
         type: 'OPTIMIZE_ERROR',
         code: errObj.code ?? 'OPTIMIZE_ERROR',
-        message: errObj.message ?? '最適化処理に失敗しました',
+        message:
+          errObj.message ?? t('optimize_error_default', undefined, '最適化処理に失敗しました'),
       });
     }
   }
@@ -93,7 +99,7 @@ export function OptimizePanel(props: OptimizePanelProps) {
       {/* プロファイル選択 */}
       <div class="flex flex-col gap-1">
         <label for="optimize-profile-select" class="text-sm font-medium">
-          SNS プロファイル
+          {t('optimize_label_profile', undefined, 'SNS プロファイル')}
         </label>
         <select
           id="optimize-profile-select"
@@ -110,13 +116,13 @@ export function OptimizePanel(props: OptimizePanelProps) {
       {/* 品質スライダー */}
       <div class="flex flex-col gap-1">
         <div class="flex items-center justify-between">
-          <span class="text-sm font-medium">品質</span>
+          <span class="text-sm font-medium">{t('optimize_label_quality', undefined, '品質')}</span>
           <button
             type="button"
             onClick={() => dispatch({ type: 'CLEAR_QUALITY' })}
             class="text-xs text-gray-400 underline hover:text-gray-600"
           >
-            リセット
+            {t('optimize_quality_reset', undefined, 'リセット')}
           </button>
         </div>
         <QualitySlider
@@ -132,8 +138,11 @@ export function OptimizePanel(props: OptimizePanelProps) {
         disabled={isRunning()}
         class="rounded bg-green-500 px-4 py-2 text-sm font-medium text-white hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-50"
       >
-        <Show when={isRunning()} fallback="最適化して書き出し">
-          最適化中...
+        <Show
+          when={isRunning()}
+          fallback={t('optimize_button_run', undefined, '最適化して書き出し')}
+        >
+          {t('optimize_button_running', undefined, '最適化中...')}
         </Show>
       </button>
 
@@ -143,7 +152,7 @@ export function OptimizePanel(props: OptimizePanelProps) {
           class="rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"
           role="alert"
         >
-          <strong>エラー:</strong> {state().errorMessage}
+          <strong>{t('app_error_prefix', undefined, 'エラー:')}</strong> {state().errorMessage}
         </div>
       </Show>
 
@@ -154,18 +163,20 @@ export function OptimizePanel(props: OptimizePanelProps) {
           <div class="flex flex-col gap-2">
             <div class="rounded border bg-gray-50 px-3 py-2 text-sm">
               <div class="grid grid-cols-2 gap-1 text-gray-600">
-                <span>寸法:</span>
+                <span>{t('summary_dimensions', undefined, '寸法')}:</span>
                 <span>
                   {result().outputDimensions.width} × {result().outputDimensions.height}
                 </span>
-                <span>サイズ:</span>
+                <span>{t('summary_size', undefined, 'サイズ')}:</span>
                 <span>{(result().outputSizeBytes / 1024).toFixed(1)} KB</span>
-                <span>品質:</span>
+                <span>{t('optimize_label_quality', undefined, '品質')}:</span>
                 <span>{result().quality}</span>
-                <span>フォーマット:</span>
+                <span>{t('summary_format', undefined, '形式')}:</span>
                 <span>{result().outputFormat.toUpperCase()}</span>
                 <Show when={!result().sizeTargetReached}>
-                  <span class="col-span-2 text-orange-600">目標サイズに収まりませんでした</span>
+                  <span class="col-span-2 text-orange-600">
+                    {t('optimize_size_target_warning', undefined, '目標サイズに収まりませんでした')}
+                  </span>
                 </Show>
               </div>
             </div>
@@ -174,7 +185,7 @@ export function OptimizePanel(props: OptimizePanelProps) {
               onClick={handleDownload}
               class="rounded bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600"
             >
-              ダウンロード
+              {t('optimize_button_download', undefined, 'ダウンロード')}
             </button>
           </div>
         )}

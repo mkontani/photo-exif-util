@@ -1,9 +1,12 @@
 /**
- * dist/ を chrome-extension.zip にパッケージングするスクリプト。
+ * dist/ を photo-exif-util-v<VERSION>.zip にパッケージングするスクリプト。
  * fflate を使用して ZIP を生成する。
  *
  * 使い方: pnpm pack:zip
  * 前提: pnpm build で dist/ が生成済みであること。
+ *
+ * バージョンは src/manifest.config.ts から regex で抽出する。
+ * (release.yml の version 抽出ロジックと整合)
  */
 import { existsSync } from 'node:fs';
 import { readFile, readdir, writeFile } from 'node:fs/promises';
@@ -11,7 +14,8 @@ import { join, relative } from 'node:path';
 import { zipSync } from 'fflate';
 
 const DIST_DIR = 'dist';
-const OUTPUT_ZIP = 'chrome-extension.zip';
+const MANIFEST_CONFIG = 'src/manifest.config.ts';
+const OUTPUT_NAME_PREFIX = 'photo-exif-util';
 
 /**
  * ディレクトリを再帰的にたどってファイルパスの一覧を返す。
@@ -61,10 +65,41 @@ export function shouldExcludeFromZip(relPath: string): boolean {
   return false;
 }
 
+/**
+ * manifest.config.ts のテキストから semver の version 値を抽出する純粋関数。
+ *  - シングル/ダブルクォート両対応
+ *  - 最初に出現する `version: '...'` を採用 (commands.suggested_key より上にある前提)
+ *  - 見つからない / 不正フォーマット時は throw
+ */
+export function extractManifestVersion(source: string): string {
+  const match = source.match(/version:\s*['"]([0-9]+\.[0-9]+\.[0-9]+)['"]/);
+  if (!match) {
+    throw new Error('Could not extract semver version from manifest source');
+  }
+  return match[1];
+}
+
+/**
+ * バージョンから出力 ZIP ファイル名を組み立てる純粋関数。
+ * 例: 0.2.3 → photo-exif-util-v0.2.3.zip
+ */
+export function buildOutputZipName(version: string): string {
+  return `${OUTPUT_NAME_PREFIX}-v${version}.zip`;
+}
+
+/** manifest.config.ts を読み取って version を返すヘルパ。テストはモック化容易にするため fs と分離。 */
+async function readManifestVersion(manifestPath: string): Promise<string> {
+  const source = await readFile(manifestPath, 'utf8');
+  return extractManifestVersion(source);
+}
+
 async function main(): Promise<void> {
   if (!existsSync(DIST_DIR)) {
     throw new Error(`${DIST_DIR}/ が存在しません。先に \`pnpm build\` を実行してください`);
   }
+
+  const version = await readManifestVersion(MANIFEST_CONFIG);
+  const outputZip = buildOutputZipName(version);
 
   const allFiles = await readDirRecursive(DIST_DIR);
   // 不要ファイル (.vite/manifest.json、.gitkeep) を除外して提出物の純度を保つ
@@ -75,8 +110,8 @@ async function main(): Promise<void> {
   const zipEntries = await buildZipEntries(DIST_DIR, files);
 
   const zipped = zipSync(zipEntries, { level: 9 });
-  await writeFile(OUTPUT_ZIP, zipped);
-  console.log(`Wrote ${OUTPUT_ZIP} (${zipped.length} bytes, ${files.length} files)`);
+  await writeFile(outputZip, zipped);
+  console.log(`Wrote ${outputZip} (${zipped.length} bytes, ${files.length} files)`);
 }
 
 // このファイルが直接実行されたときだけ main() を呼ぶ。

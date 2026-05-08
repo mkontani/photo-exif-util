@@ -2,6 +2,7 @@
  * 品質スライダーコンポーネント。
  * <input type="range"> ベースで現在値を横に表示する。
  */
+import { t } from '@/ui/i18n/t';
 
 interface QualitySliderProps {
   readonly value: number;
@@ -9,14 +10,14 @@ interface QualitySliderProps {
   /** デフォルトは 0 (Phase 3 quality-search の minQuality と整合) */
   readonly min?: number;
   readonly max?: number;
-  /** スクリーンリーダー向けラベル (省略時は "品質") */
+  /** スクリーンリーダー向けラベル (省略時は qualityslider_aria の i18n メッセージ) */
   readonly label?: string;
 }
 
 export function QualitySlider(props: QualitySliderProps) {
   const min = () => props.min ?? 0;
   const max = () => props.max ?? 100;
-  const label = () => props.label ?? '品質';
+  const label = () => props.label ?? t('qualityslider_aria', undefined, '品質');
 
   function handleInput(e: Event) {
     const input = e.currentTarget as HTMLInputElement;

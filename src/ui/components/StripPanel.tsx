@@ -9,6 +9,7 @@ import type { StripCategory, StripOptions, StripResult } from '@/core/exif/strip
 import { stripExif as defaultStripExif } from '@/core/exif/strip';
 import type { ExifSummary } from '@/core/exif/types';
 import { buildStripOptions, initialStripState, stripReducer } from '@/state/strip-store';
+import { t } from '@/ui/i18n/t';
 import { downloadBlob } from '@/utils/download';
 import { safeFilename } from '@/utils/filename';
 import { For, Show, createSignal } from 'solid-js';
@@ -26,16 +27,21 @@ const ORDERED_CATEGORIES = [
 
 type OrderedCategory = (typeof ORDERED_CATEGORIES)[number];
 
-/** カテゴリ表示名マッピング (strip 対象の 7 カテゴリのみ) */
-const CATEGORY_LABELS: Record<OrderedCategory, string> = {
-  gps: 'GPS',
-  device: 'デバイス',
-  lens: 'レンズ',
-  capture: '撮影設定',
-  datetime: '日時',
-  software: 'ソフトウェア',
-  orientation: '向き',
+/** i18n キー + JA fallback ペア。chrome.i18n が未初期化の jsdom でも JA を返せるように fallback を保持。 */
+const CATEGORY_I18N: Record<OrderedCategory, { readonly key: string; readonly ja: string }> = {
+  gps: { key: 'strip_category_gps', ja: 'GPS' },
+  device: { key: 'strip_category_device', ja: 'デバイス' },
+  lens: { key: 'strip_category_lens', ja: 'レンズ' },
+  capture: { key: 'strip_category_capture', ja: '撮影設定' },
+  datetime: { key: 'strip_category_datetime', ja: '日時' },
+  software: { key: 'strip_category_software', ja: 'ソフトウェア' },
+  orientation: { key: 'strip_category_orientation', ja: '向き' },
 };
+
+function categoryLabel(category: OrderedCategory): string {
+  const { key, ja } = CATEGORY_I18N[category];
+  return t(key, undefined, ja);
+}
 
 interface StripPanelProps {
   readonly blob: Blob;
@@ -67,7 +73,7 @@ export function StripPanel(props: StripPanelProps) {
       dispatch({
         type: 'STRIP_ERROR',
         code: errObj.code ?? 'STRIP_ERROR',
-        message: errObj.message ?? 'EXIF 削除に失敗しました',
+        message: errObj.message ?? t('strip_error_default', undefined, 'EXIF 削除に失敗しました'),
       });
     }
   }
@@ -87,20 +93,22 @@ export function StripPanel(props: StripPanelProps) {
       {/* カテゴリ選択 */}
       <div class="flex flex-col gap-2">
         <div class="flex items-center gap-2">
-          <span class="text-sm font-medium">削除カテゴリ</span>
+          <span class="text-sm font-medium">
+            {t('strip_label_categories', undefined, '削除カテゴリ')}
+          </span>
           <button
             type="button"
             onClick={() => dispatch({ type: 'SELECT_ALL' })}
             class="text-xs text-blue-500 underline hover:text-blue-700"
           >
-            全選択
+            {t('strip_button_select_all', undefined, '全選択')}
           </button>
           <button
             type="button"
             onClick={() => dispatch({ type: 'SELECT_NONE' })}
             class="text-xs text-gray-500 underline hover:text-gray-700"
           >
-            全解除
+            {t('strip_button_select_none', undefined, '全解除')}
           </button>
         </div>
 
@@ -115,7 +123,7 @@ export function StripPanel(props: StripPanelProps) {
                   onChange={() => dispatch({ type: 'TOGGLE_CATEGORY', category })}
                   class="cursor-pointer"
                 />
-                <span class="text-sm">{CATEGORY_LABELS[category]}</span>
+                <span class="text-sm">{categoryLabel(category)}</span>
               </label>
             )}
           </For>
@@ -127,10 +135,12 @@ export function StripPanel(props: StripPanelProps) {
             type="checkbox"
             checked={state().keepIcc}
             onChange={() => dispatch({ type: 'TOGGLE_KEEP_ICC' })}
-            aria-label="ICC プロファイルを保持する"
+            aria-label={t('strip_label_keep_icc', undefined, 'ICC プロファイルを保持する')}
             class="cursor-pointer"
           />
-          <span class="text-sm">ICC プロファイルを保持する</span>
+          <span class="text-sm">
+            {t('strip_label_keep_icc', undefined, 'ICC プロファイルを保持する')}
+          </span>
         </label>
       </div>
 
@@ -141,8 +151,8 @@ export function StripPanel(props: StripPanelProps) {
         disabled={isRunning() || state().selectedCategories.length === 0}
         class="rounded bg-red-500 px-4 py-2 text-sm font-medium text-white hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-50"
       >
-        <Show when={isRunning()} fallback="EXIF を削除">
-          削除中...
+        <Show when={isRunning()} fallback={t('strip_button_run', undefined, 'EXIF を削除')}>
+          {t('strip_button_running', undefined, '削除中...')}
         </Show>
       </button>
 
@@ -152,7 +162,7 @@ export function StripPanel(props: StripPanelProps) {
           class="rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"
           role="alert"
         >
-          <strong>エラー:</strong> {state().errorMessage}
+          <strong>{t('app_error_prefix', undefined, 'エラー:')}</strong> {state().errorMessage}
         </div>
       </Show>
 
@@ -162,7 +172,11 @@ export function StripPanel(props: StripPanelProps) {
         {(result) => (
           <div class="flex flex-col gap-2">
             <div class="text-sm text-gray-600">
-              削除フィールド数: {result().removedKeys.length} 件
+              {t(
+                'strip_removed_count',
+                [String(result().removedKeys.length)],
+                `削除フィールド数: ${result().removedKeys.length} 件`,
+              )}
             </div>
             <Show when={result().removedKeys.length > 0}>
               <ul class="max-h-32 overflow-auto rounded border bg-gray-50 px-3 py-2 text-xs text-gray-500">
@@ -174,7 +188,7 @@ export function StripPanel(props: StripPanelProps) {
               onClick={handleDownload}
               class="rounded bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600"
             >
-              ダウンロード
+              {t('strip_button_download', undefined, 'ダウンロード')}
             </button>
           </div>
         )}

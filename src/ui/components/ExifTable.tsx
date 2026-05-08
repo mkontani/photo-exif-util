@@ -1,5 +1,6 @@
 import type { ExifSummary } from '@/core/exif/types';
 import { filterFields } from '@/state/inspect-store';
+import { t } from '@/ui/i18n/t';
 /**
  * EXIF フィールド一覧を表示するテーブルコンポーネント。
  * 検索ボックスとカテゴリフィルタで絞り込み可能。
@@ -36,8 +37,8 @@ export function ExifTable(props: ExifTableProps) {
       {/* 検索ボックス: type=search は searchbox role を暗黙に持つので role 属性は不要 */}
       <input
         type="search"
-        aria-label="EXIF フィールドを検索"
-        placeholder="フィールド名で検索..."
+        aria-label={t('exiftable_search_aria', undefined, 'EXIF フィールドを検索')}
+        placeholder={t('exiftable_search_placeholder', undefined, 'フィールド名で検索...')}
         value={query()}
         onInput={(e) => setQuery(e.currentTarget.value)}
         class="rounded border border-gray-300 px-3 py-1.5 text-sm outline-none focus:border-blue-500"
@@ -45,7 +46,9 @@ export function ExifTable(props: ExifTableProps) {
 
       {/* カテゴリフィルタ: fieldset で a11y グルーピング */}
       <fieldset class="flex flex-wrap gap-1 border-0 p-0">
-        <legend class="sr-only">カテゴリ絞り込み</legend>
+        <legend class="sr-only">
+          {t('exiftable_filter_legend', undefined, 'カテゴリ絞り込み')}
+        </legend>
         <For each={CATEGORIES}>
           {(cat) => (
             <button
@@ -66,12 +69,16 @@ export function ExifTable(props: ExifTableProps) {
 
       {/* フィールド数 0 (初期状態) */}
       <Show when={props.summary.fields.length === 0}>
-        <p class="py-8 text-center text-sm text-gray-500">EXIF データなし</p>
+        <p class="py-8 text-center text-sm text-gray-500">
+          {t('exiftable_no_data', undefined, 'EXIF データなし')}
+        </p>
       </Show>
 
       {/* 検索結果 0 (フィルタ後) */}
       <Show when={props.summary.fields.length > 0 && filtered().length === 0}>
-        <p class="py-4 text-center text-sm text-gray-500">該当なし</p>
+        <p class="py-4 text-center text-sm text-gray-500">
+          {t('exiftable_no_match', undefined, '該当なし')}
+        </p>
       </Show>
 
       {/* フィールドテーブル */}
@@ -81,16 +88,16 @@ export function ExifTable(props: ExifTableProps) {
             <thead>
               <tr class="border-b text-left text-xs text-gray-500">
                 <th scope="col" class="pb-1 pr-3 font-medium">
-                  キー
+                  {t('exiftable_header_key', undefined, 'キー')}
                 </th>
                 <th scope="col" class="pb-1 pr-3 font-medium">
-                  値
+                  {t('exiftable_header_value', undefined, '値')}
                 </th>
                 <th scope="col" class="pb-1 pr-3 font-medium">
-                  カテゴリ
+                  {t('exiftable_header_category', undefined, 'カテゴリ')}
                 </th>
                 <th scope="col" class="pb-1 font-medium">
-                  リスク
+                  {t('exiftable_header_risk', undefined, 'リスク')}
                 </th>
               </tr>
             </thead>

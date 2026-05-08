@@ -72,7 +72,10 @@ export function ImageSummary(props: ImageSummaryProps) {
   const thumbSizeClass = () => (props.compact ? 'h-14 w-14' : 'h-20 w-20');
 
   return (
-    <section class={containerClass()} aria-label="画像サマリー">
+    <section
+      class={containerClass()}
+      aria-label={t('summary_aria_label', undefined, '画像サマリー')}
+    >
       <div class="flex gap-3">
         {/* サムネイル */}
         <div class="flex-shrink-0">

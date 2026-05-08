@@ -3,6 +3,7 @@
  * Side Panel を開くボタンのみを提供する。
  * 本体機能は Side Panel で実装している。
  */
+import { t } from '@/ui/i18n/t';
 import { render } from 'solid-js/web';
 
 function PopupApp() {
@@ -27,9 +28,11 @@ function PopupApp() {
         onClick={openSidePanel}
         class="rounded bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700"
       >
-        サイドパネルを開く
+        {t('popup_open_sidepanel', undefined, 'サイドパネルを開く')}
       </button>
-      <p class="text-xs text-gray-500">EXIF の確認・削除はサイドパネルで行います。</p>
+      <p class="text-xs text-gray-500">
+        {t('popup_hint', undefined, 'EXIF の確認・削除はサイドパネルで行います。')}
+      </p>
     </div>
   );
 }

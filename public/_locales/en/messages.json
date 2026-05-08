@@ -430,5 +430,170 @@
   "qualityslider_aria": {
     "message": "Image quality",
     "description": "Accessible label for the quality slider"
+  },
+
+  "summary_aria_label": {
+    "message": "Image summary",
+    "description": "Accessible label for the image summary section"
+  },
+
+  "popup_open_sidepanel": {
+    "message": "Open side panel",
+    "description": "Popup button label that opens the side panel"
+  },
+  "popup_hint": {
+    "message": "EXIF inspection and stripping is done in the side panel.",
+    "description": "Popup hint shown below the open button"
+  },
+
+  "exiftable_search_aria": {
+    "message": "Search EXIF fields",
+    "description": "Accessible label for the EXIF search box"
+  },
+  "exiftable_search_placeholder": {
+    "message": "Search by field name...",
+    "description": "Placeholder for the EXIF search box"
+  },
+  "exiftable_filter_legend": {
+    "message": "Category filter",
+    "description": "Legend for the category filter group"
+  },
+  "exiftable_no_data": {
+    "message": "No EXIF data",
+    "description": "Message shown when the image has no EXIF fields"
+  },
+  "exiftable_no_match": {
+    "message": "No matches",
+    "description": "Message shown when search/filter returns no results"
+  },
+  "exiftable_header_key": {
+    "message": "Key",
+    "description": "Table header for EXIF field key"
+  },
+  "exiftable_header_value": {
+    "message": "Value",
+    "description": "Table header for EXIF field value"
+  },
+  "exiftable_header_category": {
+    "message": "Category",
+    "description": "Table header for EXIF field category"
+  },
+  "exiftable_header_risk": {
+    "message": "Risk",
+    "description": "Table header for EXIF field risk level"
+  },
+
+  "strip_category_gps": {
+    "message": "GPS",
+    "description": "Strip category label: GPS"
+  },
+  "strip_category_device": {
+    "message": "Device",
+    "description": "Strip category label: device (camera body)"
+  },
+  "strip_category_lens": {
+    "message": "Lens",
+    "description": "Strip category label: lens"
+  },
+  "strip_category_capture": {
+    "message": "Capture settings",
+    "description": "Strip category label: capture settings (ISO, shutter, etc.)"
+  },
+  "strip_category_datetime": {
+    "message": "Date / Time",
+    "description": "Strip category label: timestamps"
+  },
+  "strip_category_software": {
+    "message": "Software",
+    "description": "Strip category label: software / processor"
+  },
+  "strip_category_orientation": {
+    "message": "Orientation",
+    "description": "Strip category label: image orientation"
+  },
+  "strip_label_categories": {
+    "message": "Strip categories",
+    "description": "Heading above the strip category checkboxes"
+  },
+  "strip_button_select_all": {
+    "message": "Select all",
+    "description": "Button: select all strip categories"
+  },
+  "strip_button_select_none": {
+    "message": "Clear all",
+    "description": "Button: clear all strip categories"
+  },
+  "strip_label_keep_icc": {
+    "message": "Keep ICC profile",
+    "description": "Toggle label: preserve ICC color profile when stripping"
+  },
+  "strip_button_run": {
+    "message": "Strip EXIF",
+    "description": "Strip panel run button"
+  },
+  "strip_button_running": {
+    "message": "Stripping...",
+    "description": "Strip panel run button while running"
+  },
+  "strip_button_download": {
+    "message": "Download",
+    "description": "Strip panel download button"
+  },
+  "strip_removed_count": {
+    "message": "Removed fields: $COUNT$",
+    "description": "Strip result: number of removed EXIF keys",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "12"
+      }
+    }
+  },
+  "strip_error_default": {
+    "message": "Failed to strip EXIF",
+    "description": "Default fallback error for strip failure"
+  },
+
+  "optimize_label_profile": {
+    "message": "SNS profile",
+    "description": "Optimize panel: SNS profile select label"
+  },
+  "optimize_label_quality": {
+    "message": "Quality",
+    "description": "Optimize panel: quality slider label / result row label"
+  },
+  "optimize_quality_reset": {
+    "message": "Reset",
+    "description": "Optimize panel: reset custom quality button"
+  },
+  "optimize_button_run": {
+    "message": "Optimize & export",
+    "description": "Optimize panel run button"
+  },
+  "optimize_button_running": {
+    "message": "Optimizing...",
+    "description": "Optimize panel run button while running"
+  },
+  "optimize_button_download": {
+    "message": "Download",
+    "description": "Optimize panel download button"
+  },
+  "optimize_size_target_warning": {
+    "message": "Could not reach target size",
+    "description": "Optimize panel: shown when output exceeds SNS target size"
+  },
+  "optimize_error_profile_not_found": {
+    "message": "Profile \"$PROFILE_ID$\" not found",
+    "description": "Error when the selected SNS profile id does not exist",
+    "placeholders": {
+      "profile_id": {
+        "content": "$1",
+        "example": "instagram_square"
+      }
+    }
+  },
+  "optimize_error_default": {
+    "message": "Optimization failed",
+    "description": "Default fallback error for optimization failure"
   }
 }

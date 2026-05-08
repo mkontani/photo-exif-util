@@ -9,9 +9,9 @@ GitHub Actions (`.github/workflows/release.yml`) が以下を自動実行:
 
 1. 現在の version と既存 git tag を比較
 2. 新しい version なら:
-   - `pnpm release` で `chrome-extension.zip` を生成
+   - `pnpm release` で `photo-exif-util-v<VERSION>.zip` を生成
    - `vX.Y.Z` タグを作成
-   - GitHub Release を作成し `chrome-extension.zip` を asset として添付
+   - GitHub Release を作成し `photo-exif-util-v<VERSION>.zip` を asset として添付
 
 ## バージョン更新手順
 
@@ -58,7 +58,7 @@ GitHub Actions (`.github/workflows/release.yml`) が以下を自動実行:
 ## Chrome Web Store 提出
 
 1. [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole) にアクセス
-2. 「新しいアイテムを追加」→ Releases から最新の `chrome-extension.zip` をダウンロードしてアップロード
+2. 「新しいアイテムを追加」→ Releases から最新の `photo-exif-util-v<VERSION>.zip` をダウンロードしてアップロード
 3. 必要情報を入力:
    - スクリーンショット (1280×800 または 640×400 を最低 1 枚)
    - アイコン画像 (128×128 PNG)
@@ -78,9 +78,9 @@ GitHub Actions (`.github/workflows/release.yml`) が以下を自動実行:
 CI が使えない場合の手動リリース:
 
 ```bash
-pnpm release                                              # zip 生成
+pnpm release                                              # zip 生成 (photo-exif-util-v<VERSION>.zip)
 VERSION=$(grep -oP "version:\s*'\K[^']+" src/manifest.config.ts | head -1)
 git tag v${VERSION}
 git push --tags
-gh release create v${VERSION} chrome-extension.zip --generate-notes
+gh release create v${VERSION} photo-exif-util-v${VERSION}.zip --generate-notes
 ```

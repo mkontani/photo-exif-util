@@ -21,7 +21,7 @@ Chrome 拡張 (Manifest V3)。画像 EXIF メタデータの可視化・削除�
 | `pnpm vitest run -t "テスト名"` | 名前一致でテスト絞り込み |
 | `pnpm test:e2e` | Playwright E2E (要 `RUN_E2E=true` opt-in、要 `pnpm build` 済み) |
 | `pnpm gen:icons` | プレースホルダアイコン (青円+P) を `public/icons/` に生成 |
-| `pnpm pack:zip` | `dist/` を `chrome-extension.zip` に圧縮 |
+| `pnpm pack:zip` | `dist/` を `photo-exif-util-v<VERSION>.zip` に圧縮 (バージョンは `src/manifest.config.ts` から抽出) |
 | `pnpm release` | `gen:icons && build && pack:zip` 一気通貫 (Web Store 提出物生成) |
 
 **Coverage threshold**: 全体 80%、`src/core/**` は lines/funcs/stmts 90% / branches 75%。`pnpm test:coverage` がこれを満たさないと exit 1。
