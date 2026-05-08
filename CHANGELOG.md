@@ -24,6 +24,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   リグレッションテスト 9 件 (リスナー即時登録、create と addListener の責務
   分離、URL バリデーション、user gesture 維持のための呼び出し順序検証)。
 
+### Docs
+- README に「Browser compatibility」セクションを新設。Vivaldi では
+  `chrome.sidePanel` API がサイドバー UI に紐付いておらず silent stub
+  状態のため、サイドパネルを **Web Panel として手動登録** する手順を案内。
+  右クリック「Photo EXIF Util で開く」は `chrome.storage.session` 経由
+  で URL を受け渡すため、Web Panel が開いていれば動作する旨も明記。
+
 ## [0.2.1] - 2026-05-08
 
 ### Changed

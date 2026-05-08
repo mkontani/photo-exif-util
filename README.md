@@ -33,6 +33,40 @@
 2. Provide an image by drag-and-drop, file picker, or URL
 3. Use the **Inspect / Strip / Optimize** tabs to operate
 
+## Browser compatibility
+
+| Browser | Side panel | Note |
+|---|---|---|
+| Chrome / Edge / Brave (Chromium 116+) | ✅ Works natively | |
+| Vivaldi | ⚠️ Manual Web Panel setup required | See below |
+
+### Vivaldi: manual side panel setup
+
+Vivaldi does not yet wire the Chromium `chrome.sidePanel` API up to its sidebar
+UI (the API call resolves silently but no panel appears). As a workaround,
+register Photo EXIF Util as a **Web Panel** in Vivaldi's sidebar:
+
+1. Open `vivaldi://extensions/` and copy the **extension ID** of Photo EXIF
+   Util (a long hash such as `hdonilpdcgefacepilobkebniklaomld`).
+2. Build the side-panel URL:
+   `chrome-extension://<EXTENSION_ID>/src/ui/side-panel/index.html`
+3. Click the **+** at the bottom of Vivaldi's sidebar → **Add Web Panel** →
+   paste the URL → confirm.
+4. Click the new Web Panel icon in the sidebar to open Photo EXIF Util.
+
+After registration:
+
+- **Right-click → Open with Photo EXIF Util** still works — the image URL is
+  handed off via `chrome.storage.session`, and the Web Panel picks it up the
+  next time it's open. Open the Web Panel from the sidebar first if it isn't
+  already shown.
+- The **toolbar icon** and **`Ctrl+Shift+E`** shortcut are no-ops in Vivaldi
+  because they rely on the unimplemented `chrome.sidePanel.open` API. Use the
+  sidebar Web Panel icon instead.
+
+If a future Vivaldi release implements `chrome.sidePanel`, the extension will
+work without this manual setup automatically.
+
 ## Privacy
 
 This extension **never sends image data outside your device**. All processing
