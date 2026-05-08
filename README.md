@@ -20,7 +20,7 @@
 
 ### Developer build (manual install)
 
-1. Download `chrome-extension.zip` from the [Releases page](https://github.com/mkontani/photo-exif-util/releases) and unzip it
+1. Download `photo-exif-util-v<VERSION>.zip` from the [Releases page](https://github.com/mkontani/photo-exif-util/releases) and unzip it
 2. Open `chrome://extensions/` and enable **Developer mode**
 3. Click **Load unpacked** and select the unzipped folder
 

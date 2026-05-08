@@ -53,7 +53,7 @@ pnpm-debug.log*
 # Chrome extension packed files
 *.crx
 *.pem
-chrome-extension.zip
+photo-exif-util-v*.zip
 
 # Temporary files
 *.tmp

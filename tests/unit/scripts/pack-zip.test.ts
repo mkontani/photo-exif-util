@@ -11,7 +11,13 @@ import { join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
 // テスト対象: scripts/pack-zip.ts から純粋関数をエクスポートして使う
-import { buildZipEntries, readDirRecursive, shouldExcludeFromZip } from '../../../scripts/pack-zip';
+import {
+  buildOutputZipName,
+  buildZipEntries,
+  extractManifestVersion,
+  readDirRecursive,
+  shouldExcludeFromZip,
+} from '../../../scripts/pack-zip';
 
 describe('readDirRecursive', () => {
   let tmpDir: string;
@@ -156,5 +162,45 @@ describe('shouldExcludeFromZip', () => {
     expect(shouldExcludeFromZip('icons/icon-16.png')).toBe(false);
     expect(shouldExcludeFromZip('assets/index.js')).toBe(false);
     expect(shouldExcludeFromZip('_locales/en/messages.json')).toBe(false);
+  });
+});
+
+describe('extractManifestVersion', () => {
+  it("シングルクォート version: '0.2.3' を抽出できる", () => {
+    const src = "export default defineManifest({\n  version: '0.2.3',\n});";
+    expect(extractManifestVersion(src)).toBe('0.2.3');
+  });
+
+  it('ダブルクォート version: "1.10.42" を抽出できる', () => {
+    const src = 'export default defineManifest({ version: "1.10.42" });';
+    expect(extractManifestVersion(src)).toBe('1.10.42');
+  });
+
+  it('スペースが多くても許容する', () => {
+    const src = "version:    '2.0.0'";
+    expect(extractManifestVersion(src)).toBe('2.0.0');
+  });
+
+  it('最初に出現する semver を採用する (commands 配下に類似キーがあっても無視)', () => {
+    const src = "version: '0.2.3',\n  commands: { suggested_key: { default: 'Ctrl+Shift+E' } }";
+    expect(extractManifestVersion(src)).toBe('0.2.3');
+  });
+
+  it('semver でない値は無視する (不完全な version 値)', () => {
+    const src = "version: '0.2'";
+    expect(() => extractManifestVersion(src)).toThrow();
+  });
+
+  it('version フィールドが無いと throw する', () => {
+    const src = "export default { name: 'foo' };";
+    expect(() => extractManifestVersion(src)).toThrow();
+  });
+});
+
+describe('buildOutputZipName', () => {
+  it('photo-exif-util-v<VERSION>.zip 形式になる', () => {
+    expect(buildOutputZipName('0.2.3')).toBe('photo-exif-util-v0.2.3.zip');
+    expect(buildOutputZipName('1.0.0')).toBe('photo-exif-util-v1.0.0.zip');
+    expect(buildOutputZipName('10.20.30')).toBe('photo-exif-util-v10.20.30.zip');
   });
 });

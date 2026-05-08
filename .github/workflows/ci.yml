@@ -68,5 +68,5 @@ jobs:
         if: success()
         with:
           name: chrome-extension
-          path: chrome-extension.zip
+          path: photo-exif-util-v*.zip
           retention-days: 30
