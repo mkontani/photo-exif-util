@@ -33,6 +33,12 @@ GitHub Actions (`.github/workflows/release.yml`) が以下を自動実行:
 本番リリースでは使用しない。アイコンを差し替える場合は元データから手動で
 各サイズへエクスポートし、`public/icons/` を直接上書きする。
 
+> 過去に `pnpm release` が `gen:icons` を含んでいたため本番アイコンが
+> プレースホルダで上書きされたインシデントがあった (v0.2.0 〜 v0.2.3)。
+> v0.2.4 以降:
+> - `release` スクリプトから `gen:icons` を除外 (`build && pack:zip` のみ)
+> - `gen:icons` 自体も既存ファイルを **skip-if-exists**。`--force` で上書き可
+
 ### 差し替え手順
 
 1. `assets/source-icons/icon-original.png` を画像エディタで開き、各サイズで PNG エクスポート:

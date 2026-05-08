@@ -20,9 +20,9 @@ Chrome 拡張 (Manifest V3)。画像 EXIF メタデータの可視化・削除�
 | `pnpm vitest run path/to/file.test.ts` | 単一テストファイル実行 |
 | `pnpm vitest run -t "テスト名"` | 名前一致でテスト絞り込み |
 | `pnpm test:e2e` | Playwright E2E (要 `RUN_E2E=true` opt-in、要 `pnpm build` 済み) |
-| `pnpm gen:icons` | プレースホルダアイコン (青円+P) を `public/icons/` に生成 |
+| `pnpm gen:icons` | プレースホルダアイコン (青円+P) を `public/icons/` に **生成 (skip-if-exists)**。`--force` で既存も上書き |
 | `pnpm pack:zip` | `dist/` を `photo-exif-util-v<VERSION>.zip` に圧縮 (バージョンは `src/manifest.config.ts` から抽出) |
-| `pnpm release` | `gen:icons && build && pack:zip` 一気通貫 (Web Store 提出物生成) |
+| `pnpm release` | `build && pack:zip` (本番アイコン保護のため `gen:icons` は含まない) |
 
 **Coverage threshold**: 全体 80%、`src/core/**` は lines/funcs/stmts 90% / branches 75%。`pnpm test:coverage` がこれを満たさないと exit 1。
 
@@ -102,7 +102,7 @@ URL を扱う全経路で多層検証:
 
 ### Web Store 提出時の要注意
 
-- `public/icons/icon-{16,32,48,128}.png` は `pnpm gen:icons` で生成される **プレースホルダ**。本番リリース前に必ず差し替えること
+- `public/icons/icon-{16,32,48,128}.png` は本番アイコン (commit 済)。`pnpm gen:icons` はプレースホルダ (青円+P) を生成するスクリプトで、既存ファイルは skip するので通常は安全。差し替え時は `--force` または該当 PNG を一旦削除する
 - `manifest.config.ts` の `optional_host_permissions: ['<all_urls>']` は審査で justification 必須 (URL 入力経路、Background SW のみで使用、コンテンツスクリプトから直接アクセスしない旨を説明)
 - `PRIVACY.md` を GitHub Pages 等で公開してプライバシーポリシー URL として登録
 - 詳細は `README.md` の "Submit to Chrome Web Store" 参照

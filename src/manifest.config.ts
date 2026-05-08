@@ -5,7 +5,7 @@ export default defineManifest({
   name: '__MSG_extName__',
   description: '__MSG_extDescription__',
   default_locale: 'en',
-  version: '0.2.3',
+  version: '0.2.4',
   minimum_chrome_version: '116',
   permissions: ['contextMenus', 'sidePanel', 'storage'],
   // host_permissions を required で宣言する。
