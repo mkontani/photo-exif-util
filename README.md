@@ -70,7 +70,7 @@ work without this manual setup automatically.
 ## Privacy
 
 This extension **never sends image data outside your device**. All processing
-happens locally in the browser. See [PRIVACY.md](./PRIVACY.md) for details.
+happens locally in the browser. See [PRIVACY.md](./docs/PRIVACY.md) for details.
 
 ## Development & Contributing
 

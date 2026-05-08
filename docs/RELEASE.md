@@ -70,7 +70,7 @@ GitHub Actions (`.github/workflows/release.yml`) が以下を自動実行:
    - アイコン画像 (128×128 PNG)
    - 説明文 (英語必須、日本語は任意)
 4. プライバシーの同意:
-   - [PRIVACY.md](../PRIVACY.md) を GitHub Pages 等で公開し URL を登録
+   - [PRIVACY.md](./PRIVACY.md) は GitHub Pages 配信済み (`https://mkontani.github.io/photo-exif-util/PRIVACY`)。この URL を登録
    - 「ユーザーデータを収集しない」を選択 (本拡張はデータを外部送信しません)
 5. `host_permissions: ['*://*/*']` の Justification を記入:
    - 用途: ユーザーが入力した URL / 右クリックメニューから取得した画像 URL に対する fetch

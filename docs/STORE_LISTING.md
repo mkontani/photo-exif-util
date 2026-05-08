@@ -315,14 +315,14 @@ chrome.storage.session を使い、ブラウザを閉じると自動的にクリ
 | ユーザー・チェック信用評価などに使うか | **No** (収集していない) |
 | Remote code execution を行うか | **No** |
 
-**Privacy Policy URL** *(要記入: PRIVACY.md を https で公開した URL)*
+**Privacy Policy URL**
 
 ```
-https://<your-pages-host>/PRIVACY
+https://mkontani.github.io/photo-exif-util/PRIVACY
 ```
 
-> GitHub Pages を使う場合の例: `https://mkontani.github.io/photo-exif-util/PRIVACY`
-> raw を直接登録する場合: `https://raw.githubusercontent.com/mkontani/photo-exif-util/main/PRIVACY.md` (一部審査で .md 拡張子を嫌うケースあり、Pages 推奨)
+> 配信元: GitHub Pages (source: `main` / `/docs`)。canonical は `docs/PRIVACY.md`。
+> 内容を更新したら `docs/PRIVACY.md` を編集 → main にマージで自動再デプロイ。
 
 ---
 
