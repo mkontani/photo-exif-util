@@ -35,7 +35,7 @@
 
 ### Chrome Web Store
 
-> Pending publication.
+[Install from the Chrome Web Store](https://chromewebstore.google.com/detail/photo-exif-util/jfofoaeeaeonemgkamhiefekfgfjbamd)
 
 ### Developer build (manual install)
 

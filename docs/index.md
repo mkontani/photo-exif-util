@@ -9,6 +9,7 @@ Privacy-first Chrome extension that inspects, strips, and SNS-optimizes
 image EXIF metadata **entirely on your device**. No image bytes, no
 metadata, and no analytics ever leave the browser.
 
+- [Install from the Chrome Web Store](https://chromewebstore.google.com/detail/photo-exif-util/jfofoaeeaeonemgkamhiefekfgfjbamd)
 - [Privacy Policy](./PRIVACY)
 - [Source code on GitHub](https://github.com/mkontani/photo-exif-util)
 - [Release downloads](https://github.com/mkontani/photo-exif-util/releases)
